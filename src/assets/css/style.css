@@ -1,0 +1,316 @@
+@font-face {
+    font-family: "Nirmala";
+    src:
+        url(../fonts/Nirmala.ttf)
+        format("truetype");
+}
+
+@font-face {
+    font-family: 'Myriad Pro Light';
+    src:
+        url('../fonts/MyriadPro-Light.woff')
+        format('woff');
+}
+
+* {
+    font-family: "Nirmala";
+}
+
+
+/* Roots */
+
+:root {
+
+    --color-background-primary: #f5f5f5;
+    --color-very-light-grey: #cecece;
+    --color-white: #fff;
+
+    --color-primary-text: rgba(181, 181, 181, 0.8);
+
+    --color-grey: rgb(128, 128, 128);
+    --color-skyblue: #41afe3;
+    --color-pink-very-light: rgba(217, 21, 87, 0.7);
+    --color-black: rgba(0, 0, 0);
+    --color-black-light: rgba(0, 0, 0, .9);
+    --color-black-very-light: rgba(0, 0, 0, .4);
+}
+
+/* Custom-Colors */
+
+.text-grey-to-black {
+    color: var(--color-grey);
+}
+
+.text-grey-to-black:hover,
+.text-grey-to-black:focus {
+    color: var(--color-black);
+}
+
+.bg-black {
+    background-color: var(--color-black);
+}
+
+.custom-primary-color-text,
+.custom-gray-color {
+    color: var(--color-primary-text);
+    background-color: transparent;
+    border: 1px solid transparent;
+}
+
+.custom-gray-color:hover {
+    color: var(--color-black);
+}
+
+.custom-gray-color:focus {
+    color: var(--color-skyblue);
+    outline: unset;
+}
+
+/* Position */
+
+.custom-top-unset {
+    top: unset !important;
+}
+
+.custom-left-unset {
+    left: unset !important;
+}
+
+/* Filter */
+
+.custom-filter-1:hover {
+    filter: brightness(0.7);
+}
+
+/* Custom-Buttons */
+
+button,
+textarea,
+input {
+    font-family: 'Myriad Pro Light';
+}
+
+.btn,
+.btn span,
+.card-body,
+.card-body span {
+    font-family: 'Myriad Pro Light';
+}
+
+.btn-black {
+    color: var(--color-white);
+    background-color: var(--color-black-light);
+    border-color: var(--color-black-light);
+}
+
+.btn-black:hover {
+    color: var(--color-white);
+    background-color: var(--color-black);
+    border-color: var(--color-black);
+}
+
+.btn-outline-black {
+    color: var(--color-black);
+    border-color: var(--color-black);
+}
+
+
+.btn-outline-black:hover {
+    color: var(--color-white);
+    background-color: var(--color-black);
+    border-color: var(--color-black);
+}
+
+.btn-outline-pink {
+    color: var(--color-pink-very-light);
+    border-color: var(--color-pink-very-light);
+}
+
+.btn-outline-pink:hover {
+    color: var(--color-white);
+    background-color: var(--color-pink-very-light);
+    border-color: var(--color-pink-very-light);
+}
+
+.btn-outline-gray {
+    color: var(--color-primary-text);
+    border-color: var(--color-primary-text);
+}
+
+.btn-outline-gray:hover {
+    color: var(--color-white);
+    background-color: var(--color-primary-text);
+    border-color: var(--color-primary-text);
+}
+
+/* Bs4-replace */
+
+.btn:focus {
+    box-shadow: unset;
+}
+
+.btn-outline-warning:hover {
+    color: var(--color-white);
+
+}
+
+.mt-n4 {
+    margin-top: -1.9rem !important;
+}
+
+/* input */
+
+input:focus {
+    box-shadow: unset !important;
+}
+
+input,
+input::placeholder {
+    font-size: 1.5rem !important;
+}
+
+/* Text Area */
+
+textarea {
+    resize: none;
+    border: 0;
+}
+
+textarea::placeholder {
+    color: var(--color-primary-text);
+}
+
+textarea:focus {
+    outline: 0;
+}
+
+/* Container-For-Scroll */
+
+.container-for-scroll {
+    background-color: var(--color-background-primary);
+    height: 100vh;
+    overflow: hidden;
+}
+
+.h-89 {
+    height: 89%;
+}
+
+.h-85 {
+    height: 85%;
+}
+
+/* Custom-Styles */
+
+/* Custom-User-Pic */
+
+.custom-user-pic {
+    width: 50px;
+    height: 50px;
+}
+
+.custom-user-pic-2 {
+    width: 70px;
+    height: 70px;
+}
+
+/* Custom-Shadow */
+
+.shadow-inset {
+    box-shadow: inset 0px 0px 7px 2px var(--color-very-light-grey);
+}
+
+.custom-shadow-1 {
+    box-shadow: 0 0 .5rem var(--color-black-very-light) !important;
+}
+
+/* .Custom-Rounded */
+
+.custom-rounded-1rem {
+    border-radius: 1rem !important;
+}
+
+.custom-rounded-2rem {
+    border-radius: 2rem !important;
+}
+
+/* Custom-opacity */
+
+.custom-opacity {
+    opacity: 0.7;
+}
+
+/* Custom-hover */
+.custom-card {
+    transition: all .2s;
+}
+
+.custom-card:hover {
+    box-shadow: 0 0 8px rgba(0, 0, 0, .1);
+    transform: translateY(-2px);
+}
+/* SideBar */
+
+.sidebar a {
+    color: var(--color-primary-text) !important;
+}
+
+.sidebar a:hover {
+    color: var(--color-black) !important;
+}
+
+
+/* Custom-Modal-Form */
+
+.custom-modal-form .modal-content {
+    height: 600px;
+    font-family: 'Myriad Pro Light';
+}
+
+.custom-clip-path-circle {
+    clip-path: circle(66% at 43% 21%);
+}
+
+
+/* // Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+    .modal-dialog {
+        max-width: 800px;
+    }
+
+    .custom-modal-form {
+        max-width: 650px !important;
+    }
+}
+
+/* // Medium devices (tablets, less than 992px) */
+@media (max-width: 991.98px) {
+
+    .custom-clip-path-circle {
+        clip-path: circle(73% at 43% 21%);
+    }
+}
+
+
+/* // Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+
+    header .h3,
+    header h3 {
+        font-size: 1.2rem;
+    }
+
+    #formModal .h1,
+    #formModal h1 {
+        font-size: 2rem;
+    }
+
+    .filter-drop-shadow-gray {
+        filter: drop-shadow(2px 4px 6px var(--color-grey));
+    }
+
+    .custom-clip-path-circle {
+        clip-path: circle(100% at 32% 8%);
+    }
+
+}

@@ -1,0 +1,100 @@
+/* React Modal Library Class */
+.ReactModal__Overlay {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.react-modal {
+  top: 50%;
+  left: 50%;
+  opacity: 0;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+.react-modal img {
+  border-radius: 2rem;
+  max-width: 800px;
+  min-height: calc(100% - 3.5rem);
+}
+
+.react-modal:focus {
+  outline: none;
+}
+
+.icon-2x {
+  font-size: 2em;
+}
+
+.category-wrapper > * {
+  text-align: center;
+  width: 100%;
+}
+
+.category-link {
+  display: block;
+  text-align: center;
+}
+
+.category-item {
+  display: flex;
+  height: 64px;
+  width: 64px;
+}
+
+.category-item-icon {
+  margin: auto;
+  font-size: 42px;
+  margin-top: 14px;
+}
+
+.button-invisible {
+  border: none;
+  background-color: transparent;
+}
+
+.button-invisible:focus {
+  outline: none;
+}
+
+.bg-black-transparent {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/* Animations */
+.animation-fade-in {
+  animation: FadeIn 0.65s ease-out 0s;
+  animation-fill-mode: forwards !important;
+}
+
+.animation-fade-out {
+  animation: FadeOut 0.45s ease-in 0s;
+  animation-fill-mode: forwards !important;
+}
+
+@keyframes FadeIn {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, calc(-50% - 25px));
+  }
+  
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@keyframes FadeOut {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, calc(-50% - 25px));
+  }
+}
