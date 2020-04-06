@@ -1,0 +1,44 @@
+{
+  "users": [
+    {
+      "_id": "1",
+      "name": "Afaq",
+      "email": "afaq@gmail.com",
+      "imageUrl": "https://s3.amazonaws.com/uifaces/faces/twitter/benefritz/128.jpg"
+    },
+    {
+      "_id": "2",
+      "name": "Pajeet",
+      "email": "pajeet@gmail.com",
+      "imageUrl": "https://s3.amazonaws.com/uifaces/faces/twitter/buleswapnil/128.jpg"
+    }
+  ],
+  "posts": [
+    {
+      "_id": "1",
+      "user": {
+        "_id": "1",
+        "name": "Afaq",
+        "email": "afaq@gmail.com",
+        "imageUrl": "https://s3.amazonaws.com/uifaces/faces/twitter/benefritz/128.jpg"
+      },
+      "rating": 4,
+      "text": "reprehenderit culpa ducimus sed voluptatem soluta pariatur sit debitis adipisci eos odit quo tenetur pariatur sint",
+      "mediaUrl": "http://lorempixel.com/640/480/food",
+      "comments": []
+    },
+    {
+      "_id": "2",
+      "user": {
+        "_id": "2",
+        "name": "Pajeet",
+        "email": "pajeet@gmail.com",
+        "imageUrl": "https://s3.amazonaws.com/uifaces/faces/twitter/buleswapnil/128.jpg"
+      },
+      "rating": 5,
+      "text": "dolorem fugiat quos facilis in a id quo ut id sit eos est incidunt ut commodi",
+      "mediaUrl": "http://lorempixel.com/640/480/nature",
+      "comments": []
+    }
+  ]
+}
