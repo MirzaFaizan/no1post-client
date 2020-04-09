@@ -25,9 +25,9 @@ const PostPage = ({ posts }) => {
         Post Page
       </h2>
       <div className="mb-2">
-        <Button type="button" variant="primary" onClick={onAddModalOpen}>
+        {/* <Button type="button" variant="primary" onClick={onAddModalOpen}>
           Add Post
-        </Button>
+        </Button> */}
       </div>
       <div>
         <Table striped bordered hover>
