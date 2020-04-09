@@ -29,11 +29,8 @@ const App = () => {
     };
 
     const token = localStorage.getItem(X_AUTH_TOKEN);
-    const adminToken = localStorage.getItem(X_AUTH_TOKEN_ADMIN);
 
-    if (adminToken) {
-      dispatch(initAdmin(() => {}));
-    }
+    dispatch(initAdmin(() => {}));
 
     if (token) {
       dispatch(initUser(loadData));

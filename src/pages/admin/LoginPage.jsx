@@ -57,7 +57,7 @@ const LoginPage = () => {
 
         history.push('/admin');
 
-        localStorage.setItem(ADMIN_DATA, payload);
+        localStorage.setItem(ADMIN_DATA, JSON.stringify(payload));
         localStorage.setItem(X_AUTH_TOKEN_ADMIN, data.token);
       });
   };
