@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Form } from 'react-bootstrap';
+import { Form, Spinner } from 'react-bootstrap';
 import {
   FiMic,
   FiImage,
@@ -20,16 +20,13 @@ import { addPost } from '../redux/posts/actions';
 import notification from './notifications';
 
 const CreatePost = ({ user, categories, dispatch }) => {
+  const [loading, setLoading] = React.useState(false);
+
   const [file, setFile] = React.useState(null);
   const [category, setCategory] = React.useState('');
   const [description, setDescription] = React.useState('');
   const [tempFileURL, setTempFileURL] = React.useState('');
   const [tempFileType, setTempFileType] = React.useState('');
-
-  // React.useEffect(() => {
-  //   console.clear();
-  //   console.log(file);
-  // }, [file]);
 
   const onUpload = (uploadedFile) => {
     setFile(uploadedFile);
@@ -60,7 +57,11 @@ const CreatePost = ({ user, categories, dispatch }) => {
   };
 
   const onSubmit = () => {
+    setLoading(true);
+
     dispatch(addPost(file, description, category, (success) => {
+      setLoading(false);
+
       if (success) {
         notification.success('Post Created', 'Post was successfully created.');
       } else {
@@ -126,28 +127,6 @@ const CreatePost = ({ user, categories, dispatch }) => {
               onChange={onChange}
               placeholder="Let’s get your post on top!"
             />
-            <div>
-              <Form.Group>
-                <Form.Control
-                  as="select"
-                  name="category"
-                  value={category}
-                  onChange={onChange}
-                >
-                  <option value="" disabled>Select Category</option>
-                  {
-                    categories.map((item) => (
-                      <option
-                        key={item._id}
-                        value={item._id}
-                      >
-                        {item.category}
-                      </option>
-                    ))
-                  }
-                </Form.Control>
-              </Form.Group>
-            </div>
             {filePreview()}
           </div>
         </div>
@@ -186,18 +165,63 @@ const CreatePost = ({ user, categories, dispatch }) => {
           )}
           onUpload={onUpload}
         />
-        <button
-          type="button"
-          onClick={onSubmit}
-          className="align-items-center badge-pill btn btn-primary d-flex mb-2 mb-md-0 ml-md-auto px-4"
-        >
-          <span className="font-weight-bold pr-3">
-            Post for 12$
-          </span>
-          <span>
-            <FaRocketchat className="icon-2x" />
-          </span>
-        </button>
+        <div className="align-items-center d-flex mb-2 mb-md-0 ml-md-auto">
+          <Form.Control
+            as="select"
+            name="category"
+            value={category}
+            onChange={onChange}
+            style={{
+              display: 'inline-block',
+              marginRight: '8px',
+              width: 'auto',
+            }}
+          >
+            <option value="" disabled>Select Category</option>
+            {
+              categories.map((item) => (
+                <option
+                  key={item._id}
+                  value={item._id}
+                >
+                  {item.category}
+                </option>
+              ))
+            }
+          </Form.Control>
+          <button
+            type="button"
+            onClick={onSubmit}
+            className="align-items-center badge-pill btn btn-primary d-flex px-4"
+            disabled={loading}
+          >
+            {
+              !loading
+                ? (
+                  <>
+                    <span className="font-weight-bold pr-3">
+                      Post for 12$
+                    </span>
+                    <span>
+                      <FaRocketchat className="icon-2x" />
+                    </span>
+                  </>
+                )
+                : (
+                  <>
+                    <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                    />
+                    <span className="sr-only">Loading...</span>
+                  </>
+                )
+            }
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -217,7 +241,7 @@ CreatePost.propTypes = {
 
 const mapStateToProps = ({ user, admin, categories }) => ({
   categories,
-  user: user.isAuthenticated ? user : admin,
+  user: admin.isAuthenticated ? admin : user,
 });
 
 export default connect(mapStateToProps, null)(CreatePost);

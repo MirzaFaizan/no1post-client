@@ -20,6 +20,7 @@ export default (state = { ...initState }, { type, payload }) => {
     case LOGIN_USER:
       return {
         ...payload,
+        imageUrl: (payload.imageUrl || DefaultUserImage),
         isLoading: false,
         isAuthenticated: true,
       };

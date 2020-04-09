@@ -9,7 +9,7 @@ import {
 import AddPostModal from '../../components/AddPostModal';
 
 const PostPage = ({ posts }) => {
-  const [addModalOpen, setAddModalOpen] = React.useState(true);
+  const [addModalOpen, setAddModalOpen] = React.useState(false);
 
   const onAddModalOpen = () => {
     setAddModalOpen(true);

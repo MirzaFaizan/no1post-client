@@ -77,6 +77,10 @@
   object-fit: cover;
 }
 
+.bg-modal-transparent .modal-content {
+  background-color: transparent;
+}
+
 /* Animations */
 .animation-fade-in {
   animation: FadeIn 0.65s ease-out 0s;
