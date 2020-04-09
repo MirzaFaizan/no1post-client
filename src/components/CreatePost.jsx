@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Form } from 'react-bootstrap';
 import {
   FiMic,
   FiImage,
@@ -14,22 +15,21 @@ import Image from './Image';
 import TextArea from './TextArea';
 import FileUpload from './FileUpload';
 
-import DefaultUserImage from '../assets/img/default-user.png';
-
 import { addPost } from '../redux/posts/actions';
 
-const CreatePost = ({ user, dispatch }) => {
+import notification from './notifications';
+
+const CreatePost = ({ user, categories, dispatch }) => {
   const [file, setFile] = React.useState(null);
+  const [category, setCategory] = React.useState('');
   const [description, setDescription] = React.useState('');
   const [tempFileURL, setTempFileURL] = React.useState('');
   const [tempFileType, setTempFileType] = React.useState('');
 
-  // console.log(user);
-
-  React.useEffect(() => {
-    // console.clear();
-    // console.log(file);
-  }, [file]);
+  // React.useEffect(() => {
+  //   console.clear();
+  //   console.log(file);
+  // }, [file]);
 
   const onUpload = (uploadedFile) => {
     setFile(uploadedFile);
@@ -45,24 +45,35 @@ const CreatePost = ({ user, dispatch }) => {
   };
 
   const onChange = (event) => {
-    const { value } = event.target;
+    const { name, value } = event.target;
 
-    setDescription(value);
+    switch (name) {
+      case 'description':
+        setDescription(value);
+        break;
+      case 'category':
+        setCategory(value);
+        break;
+      default:
+        break;
+    }
   };
 
   const onSubmit = () => {
-    const formData = new FormData();
+    dispatch(addPost(file, description, category, (success) => {
+      if (success) {
+        notification.success('Post Created', 'Post was successfully created.');
+      } else {
+        notification.error('Post Failed', 'Oops! Failed to create the post.');
+      }
 
-    formData.append('file', file);
-    formData.append('description', description);
+      URL.revokeObjectURL(tempFileURL);
 
-    dispatch(addPost(file, description));
-
-    // URL.revokeObjectURL(tempFileURL);
-
-    setFile(null);
-    setTempFileURL('');
-    setDescription('');
+      setFile(null);
+      setCategory('');
+      setTempFileURL('');
+      setDescription('');
+    }));
   };
 
   const filePreview = () => {
@@ -105,7 +116,7 @@ const CreatePost = ({ user, dispatch }) => {
             <Image
               circle
               alt={user.name}
-              src={DefaultUserImage}
+              src={user.imageUrl}
             />
           </div>
           <div className="ml-3 mt-2 w-75">
@@ -115,6 +126,28 @@ const CreatePost = ({ user, dispatch }) => {
               onChange={onChange}
               placeholder="Let’s get your post on top!"
             />
+            <div>
+              <Form.Group>
+                <Form.Control
+                  as="select"
+                  name="category"
+                  value={category}
+                  onChange={onChange}
+                >
+                  <option value="" disabled>Select Category</option>
+                  {
+                    categories.map((item) => (
+                      <option
+                        key={item._id}
+                        value={item._id}
+                      >
+                        {item.category}
+                      </option>
+                    ))
+                  }
+                </Form.Control>
+              </Form.Group>
+            </div>
             {filePreview()}
           </div>
         </div>
@@ -172,16 +205,19 @@ const CreatePost = ({ user, dispatch }) => {
 
 CreatePost.defaultProps = {
   user: null,
+  categories: null,
   dispatch: null,
 };
 
 CreatePost.propTypes = {
   dispatch: PropTypes.func,
   user: PropTypes.instanceOf(Object),
+  categories: PropTypes.instanceOf(Object),
 };
 
-const mapStateToProps = ({ user }) => ({
-  user,
+const mapStateToProps = ({ user, admin, categories }) => ({
+  categories,
+  user: user.isAuthenticated ? user : admin,
 });
 
 export default connect(mapStateToProps, null)(CreatePost);

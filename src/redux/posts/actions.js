@@ -11,51 +11,60 @@ import {
 
 import {
   API_BASE_URL,
-  // X_AUTH_TOKEN,
+  X_AUTH_TOKEN,
 } from '../../types';
 
 export const initPosts = () => async (dispatch) => {
-  try {
-    const { data } = await axios.get(`${API_BASE_URL}/posts`);
+  const token = localStorage.getItem(X_AUTH_TOKEN);
 
-    dispatch({
-      type: INIT_POSTS,
-      payload: data,
-    });
+  try {
+    if (!token) {
+      // Do NothinG
+    } else {
+      const { data } = await axios.get(`${API_BASE_URL}/post/get`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      dispatch({
+        type: INIT_POSTS,
+        payload: data.article,
+      });
+    }
   } catch (error) {
     // console.error(error);
   }
 };
 
-export const addPost = (file, description) => async (dispatch) => {
+export const addPost = (file, description, category, callback) => async (dispatch) => {
   try {
-    const { data: users } = await axios.get(`${API_BASE_URL}/users`);
-
     const formData = new FormData();
 
-    // const token = localStorage.getItem(X_AUTH_TOKEN);
+    const token = localStorage.getItem(X_AUTH_TOKEN);
 
-    formData.append('file', file);
+    formData.append('mediaUrl', file);
+    formData.append('category', category);
     formData.append('description', description);
 
-    // const { data } = await axios.post(`${API_BASE_URL}/posts`, formData, {
-    //   bearer: token,
-    // });
+    const { data } = await axios.post(`${API_BASE_URL}/post/add`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     dispatch({
       type: ADD_POST,
-      payload: {
-        _id: v4(),
-        rating: 5,
-        user: users[1],
-        text: description,
-        mediaUrl: window.URL.createObjectURL(file),
-        mediaType: 'audio',
-        comments: [],
-      },
+      payload: data.savedArticle,
     });
+
+    if (callback) {
+      callback(true);
+    }
   } catch (error) {
-    // console.error(error);
+    if (callback) {
+      callback(false, error);
+    }
   }
 };
 

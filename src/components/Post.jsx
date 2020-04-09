@@ -62,7 +62,7 @@ const Post = ({ post }) => {
           rounded
           src={post.mediaUrl}
           alt="Will contain some text"
-          className="filter-drop-shadow-gray h-100 w-100"
+          className="filter-drop-shadow-gray media__image"
         />
       </button>
     );
@@ -78,22 +78,22 @@ const Post = ({ post }) => {
               alt="User"
               width="70px"
               height="70px"
-              src={post.user.imageUrl}
+              src={post.postBy.imageUrl}
             />
           </div>
           <div className="col text-center text-md-left">
             <div className="d-flex flex-column flex-md-row justify-content-between py-2 py-md-0 text-black-50">
               <span className="h3 mb-0">
-                {post.user.name}
+                {post.postBy.name}
               </span>
               <span className="h4 mb-0">Posted for 8$</span>
             </div>
             <div className="h4 pb-2 pb-md-0 text-body">
-              {post.text}
+              {post.description}
             </div>
           </div>
         </div>
-        <div className="pt-4">
+        <div className="pt-4 media">
           {displayMedia()}
         </div>
         <div className="align-items-center flex-column-reverse flex-md-row justify-content-between mx-0 mx-md-4 pt-2 row">
@@ -112,9 +112,9 @@ const Post = ({ post }) => {
               <FaShareSquare />
             </span>
             <span>
-              <StarRating
+              {/* <StarRating
                 rating={post.rating}
-              />
+              /> */}
             </span>
           </div>
         </div>

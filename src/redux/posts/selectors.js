@@ -9,7 +9,7 @@ export const filteredPostSelector = createSelector(
   postsAndFiltersSelector,
   ({ posts, category }) => {
     if (category) {
-      return posts.filter((post) => post.category === category);
+      return posts.filter((post) => post.category._id === category);
     }
 
     return [...posts];

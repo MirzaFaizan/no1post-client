@@ -5,24 +5,31 @@ import {
   Redirect,
 } from 'react-router-dom';
 
-import MainLayout from '../layouts/MainLayout';
+import AdminRouter from './AdminRouter';
+import ClientRouter from './ClientRouter';
 
-import HomePage from '../pages/HomePage';
+import LoginPage from '../pages/admin/LoginPage';
 
 const MainRouter = () => (
-  <MainLayout>
-    <Switch>
-      <Route
-        exact
-        path="/"
-        component={HomePage}
-      />
-      <Route
-        path="*"
-        component={() => <Redirect to="/" />}
-      />
-    </Switch>
-  </MainLayout>
+  <Switch>
+    <Route
+      exact
+      path="/admin/login"
+      component={LoginPage}
+    />
+    <Route
+      path="/admin"
+      component={AdminRouter}
+    />
+    <Route
+      path="/"
+      component={ClientRouter}
+    />
+    <Route
+      path="*"
+      component={() => <Redirect to="/" />}
+    />
+  </Switch>
 );
 
 export default MainRouter;

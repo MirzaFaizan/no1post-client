@@ -4,9 +4,13 @@ import {
   FiHeart,
 } from 'react-icons/fi';
 
-const Category = ({ category, onSelectCategory }) => {
+const Category = React.memo(({
+  _id,
+  name,
+  onSelectCategory,
+}) => {
   const handleOnSelectCategory = () => {
-    onSelectCategory(category);
+    onSelectCategory(_id);
   };
 
   return (
@@ -20,20 +24,22 @@ const Category = ({ category, onSelectCategory }) => {
           <FiHeart className="category-item-icon" />
         </span>
         <div className="mt-3 h4 text-center">
-          {category}
+          {name}
         </div>
       </button>
     </li>
   );
-};
+});
 
 Category.defaultProps = {
-  category: '',
+  _id: '',
+  name: '',
   onSelectCategory: null,
 };
 
 Category.propTypes = {
-  category: PropTypes.string,
+  _id: PropTypes.string,
+  name: PropTypes.string,
   onSelectCategory: PropTypes.func,
 };
 

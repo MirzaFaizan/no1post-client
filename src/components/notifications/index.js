@@ -10,7 +10,7 @@ const createContainer = () => {
   document.body.append(container);
 };
 
-const createNotification = (title, description, type) => {
+const createNotification = (title, description = '', type) => {
   createContainer();
 
   let timeoutRefs = [];
@@ -25,12 +25,16 @@ const createNotification = (title, description, type) => {
 
   noti.classList.add('react-notification');
   noti.classList.add(`react-notification--${type}`);
+
+  let notificationHTML = `<p class="react-notification__title">${title}</p>`;
+
+  if (notificationHTML) {
+    notificationHTML += `<p class="react-notification__content">${description}</p>`;
+  }
+
   noti.insertAdjacentHTML(
     'afterbegin',
-    `
-      <p class="react-notification__title">${title}</p>
-      <p class="react-notification__content">${description}</p>
-    `,
+    notificationHTML,
   );
 
   container.append(noti);
@@ -43,10 +47,10 @@ const createNotification = (title, description, type) => {
 };
 
 export default {
-  success: (title, description) => {
+  success: (title, description = '') => {
     createNotification(title, description, 'success');
   },
-  error: (title, description) => {
+  error: (title, description = '') => {
     createNotification(title, description, 'error');
   },
 };

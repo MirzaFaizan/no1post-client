@@ -7,18 +7,18 @@ import Category from './Category';
 import { setCategoryFilter } from '../redux/filters/actions';
 
 const Categories = ({ categories, dispatch }) => {
-  const onSelectCategory = (category) => {
-    dispatch(setCategoryFilter(category));
+  const onSelectCategory = (categoryId) => {
+    dispatch(setCategoryFilter(categoryId));
   };
 
   return (
     <div className="d-flex flex-column align-items-center text-center category-wrapper">
       <h2 className="h2 py-5">Categories</h2>
       <ul className="list-group list-unstyled">
-        {categories.map((category) => (
+        {categories.map(({ _id, category }) => (
           <Category
-            key={category}
-            category={category}
+            key={_id}
+            name={category}
             onSelectCategory={onSelectCategory}
           />
         ))}

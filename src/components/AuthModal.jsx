@@ -7,17 +7,22 @@ import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 
 import {
+  changeView,
   closeAuthModal as closeAuthModalAction,
 } from '../redux/auth-modal/actions';
 
 Modal.setAppElement(document.getElementById('root'));
 
-const AuthModal = ({ isOpen, closeAuthModal }) => {
-  const [registerIsOpen, setRegisterIsOpen] = React.useState(true);
-
-  const stopPropagation = (event) => event.stopPropagation();
-  const handleDisplayLoginForm = () => setRegisterIsOpen(false);
-  const handleDisplayRegisterForm = () => setRegisterIsOpen(true);
+const AuthModal = ({
+  view,
+  isOpen,
+  closeAuthModal,
+  openLoginScreen,
+  openRegisterScreen,
+}) => {
+  const stopPropagation = (event) => {
+    event.stopPropagation();
+  };
 
   return (
     <div
@@ -40,7 +45,7 @@ const AuthModal = ({ isOpen, closeAuthModal }) => {
               <div id="headingOne">
                 <button
                   type="button"
-                  onClick={handleDisplayLoginForm}
+                  onClick={openLoginScreen}
                   className="btn text-grey-to-black"
                 >
                   <span className="h1 mb-0">Login</span>
@@ -51,7 +56,7 @@ const AuthModal = ({ isOpen, closeAuthModal }) => {
                 <button
                   type="button"
                   className="btn text-grey-to-black"
-                  onClick={handleDisplayRegisterForm}
+                  onClick={openRegisterScreen}
                 >
                   <span className="h1 mb-0">Register</span>
                 </button>
@@ -59,7 +64,7 @@ const AuthModal = ({ isOpen, closeAuthModal }) => {
             </div>
             <div className="modal-body">
               {
-                registerIsOpen
+                view === 'register'
                   ? <RegisterForm />
                   : <LoginForm />
               }
@@ -72,21 +77,30 @@ const AuthModal = ({ isOpen, closeAuthModal }) => {
 };
 
 AuthModal.defaultProps = {
+  view: '',
   isOpen: false,
   closeAuthModal: null,
+  openLoginScreen: null,
+  openRegisterScreen: null,
 };
 
 AuthModal.propTypes = {
+  view: PropTypes.string,
   isOpen: PropTypes.bool,
   closeAuthModal: PropTypes.func,
+  openLoginScreen: PropTypes.func,
+  openRegisterScreen: PropTypes.func,
 };
 
 const mapStateToProps = ({ authModal }) => ({
+  view: authModal.view,
   isOpen: authModal.isOpen,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   closeAuthModal: () => dispatch(closeAuthModalAction()),
+  openLoginScreen: () => dispatch(changeView('login')),
+  openRegisterScreen: () => dispatch(changeView('register')),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthModal);

@@ -64,6 +64,19 @@
   cursor: pointer;
 }
 
+.media {
+  text-align: center;
+}
+
+.media .media__image {
+  height: 360px !important;
+  width: auto;
+}
+
+.object-fit-cover {
+  object-fit: cover;
+}
+
 /* Animations */
 .animation-fade-in {
   animation: FadeIn 0.65s ease-out 0s;

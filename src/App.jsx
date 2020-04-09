@@ -1,15 +1,22 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch, useStore } from 'react-redux';
 
 import './App.css';
 import MainRouter from './router';
 
+import { initUser } from './redux/user/actions';
 import { initPosts } from './redux/posts/actions';
+import { initAdmin } from './redux/admin/actions';
+import { initCategories } from './redux/categories/actions';
 
-const App = ({ loadPosts }) => {
+const App = () => {
+  const dispatch = useDispatch();
+
   React.useEffect(() => {
-    loadPosts();
+    dispatch(initUser());
+    dispatch(initPosts());
+    dispatch(initAdmin());
+    dispatch(initCategories());
   });
 
   return (
@@ -17,16 +24,4 @@ const App = ({ loadPosts }) => {
   );
 };
 
-App.defaultProps = {
-  loadPosts: null,
-};
-
-App.propTypes = {
-  loadPosts: PropTypes.func,
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  loadPosts: () => dispatch(initPosts()),
-});
-
-export default connect(null, mapDispatchToProps)(App);
+export default App;

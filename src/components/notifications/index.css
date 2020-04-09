@@ -5,7 +5,7 @@
   min-width: 420px;
   right: 35px;
   position: fixed;
-  z-index: 1000;
+  z-index: 99998;
 }
 
 .react-notification-container .react-notification:not(:last-of-type) {
@@ -20,6 +20,7 @@
   display: block;
   height: auto;
   padding: 8px 14px;
+  z-index: 99999;
 }
 
 .react-notification__title {

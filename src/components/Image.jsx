@@ -26,8 +26,8 @@ const Image = ({
 Image.defaultProps = {
   alt: '',
   src: '',
-  width: 50,
-  height: 50,
+  width: '50',
+  height: '50',
   className: '',
   circle: false,
   rounded: false,

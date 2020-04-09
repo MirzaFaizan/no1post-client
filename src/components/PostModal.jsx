@@ -46,9 +46,9 @@ const PostContentModal = ({ dispatch, postModal }) => {
         alt="Will contain text name"
       />
       <div className="text-center">
-        <StarRating
+        {/* <StarRating
           rating={rating}
-        />
+        /> */}
       </div>
     </Modal>
   );

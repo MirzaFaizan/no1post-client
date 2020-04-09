@@ -9,6 +9,8 @@ import {
 
 import store from './redux';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import './index.css';
 import './assets/css/react.css';
 import './assets/css/style.css';
