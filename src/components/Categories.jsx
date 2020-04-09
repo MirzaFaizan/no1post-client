@@ -18,6 +18,7 @@ const Categories = ({ categories, dispatch }) => {
         {categories.map(({ _id, category }) => (
           <Category
             key={_id}
+            _id={_id}
             name={category}
             onSelectCategory={onSelectCategory}
           />
