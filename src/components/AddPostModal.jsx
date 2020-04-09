@@ -9,7 +9,7 @@ import CreatePost from './CreatePost';
 const AddPostModal = ({ isOpen, onClose }) => (
   <Modal show={isOpen} onHide={onClose} className="bg-modal-transparent">
     <Modal.Body>
-      <CreatePost />
+      <CreatePost admin />
     </Modal.Body>
   </Modal>
 );

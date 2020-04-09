@@ -19,14 +19,14 @@ const Comment = ({ comment, postId }) => {
       <div>
         <Image
           circle
-          src={comment.user.imageUrl}
-          alt="User related stuff..."
+          src={comment.userId.imageUrl}
+          alt={comment.userId.name}
         />
       </div>
       <div className="col">
         <div className="text-black-50">
           <span className="h3 mb-0">
-            {comment.user.name}
+            {comment.userId.name}
           </span>
         </div>
         <div className="d-flex flex-column flex-md-row h4 justify-content-between mb-0 text-body">

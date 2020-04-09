@@ -46,7 +46,7 @@ const PostPage = ({ posts }) => {
                 <td>{post._id}</td>
                 <td>{post.postBy.name}</td>
                 <td>{post.description}</td>
-                <td>{post.category}</td>
+                <td>{post.category.category}</td>
                 <td className="text-center">
                   <button
                     type="button"

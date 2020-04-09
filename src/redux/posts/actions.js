@@ -27,6 +27,8 @@ export const initPosts = () => async (dispatch) => {
         },
       });
 
+      console.log(data);
+
       dispatch({
         type: INIT_POSTS,
         payload: data.article,
@@ -69,19 +71,29 @@ export const addPost = (file, description, category, callback) => async (dispatc
 };
 
 export const addComment = (postId, comment) => async (dispatch) => {
+  const token = localStorage.getItem(X_AUTH_TOKEN);
+
   try {
-    const { data: users } = await axios.get(`${API_BASE_URL}/users`);
-    // const { data } = await axios.post(`${API_BASE_URL}/posts/${postId}/comments`);
+    const { data } = await axios.post(`${API_BASE_URL}/comment/add`, {
+      text: comment,
+      resourceId: postId,
+    }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const { savedComment } = data;
 
     dispatch({
       type: ADD_COMMENT,
       payload: {
         postId,
         comment: {
-          _id: v4(),
           replies: [],
-          text: comment,
-          user: { ...users[0] },
+          _id: savedComment._id,
+          text: savedComment.text,
+          user: savedComment.userId,
         },
       },
     });

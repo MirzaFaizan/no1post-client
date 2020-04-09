@@ -9,16 +9,19 @@ import {
 import { API_BASE_URL, X_AUTH_TOKEN } from '../../types';
 
 export const logoutUser = () => (dispatch) => {
+  localStorage.removeItem(X_AUTH_TOKEN);
+
   dispatch({
     type: LOGOUT_USER,
   });
 };
 
-export const initUser = () => async (dispatch) => {
+export const initUser = (callback) => async (dispatch) => {
   const token = localStorage.getItem(X_AUTH_TOKEN);
 
   if (!token) {
     dispatch(logoutUser());
+    callback(false);
   } else {
     try {
       const { data: user } = await axios.get(`${API_BASE_URL}/user/getProfileByToken`, {
@@ -36,12 +39,15 @@ export const initUser = () => async (dispatch) => {
             imageUrl: user.imageUrl,
           },
         });
+
+        callback(true);
       } else {
         dispatch(logoutUser());
+        callback(false);
       }
     } catch (error) {
-      console.log(error);
       dispatch(logoutUser());
+      callback(false);
     }
   }
 };
@@ -104,5 +110,27 @@ export const registerUser = (name, email, password, avatar, callback) => async (
 
       callback(false, errorMessage);
     }
+  }
+};
+
+export const registerAsGuest = (callback) => async (dispatch) => {
+  try {
+    const { data } = await axios.post(`${API_BASE_URL}/signup/guest`);
+
+    localStorage.setItem(X_AUTH_TOKEN, data.token);
+
+    dispatch({
+      type: LOGIN_USER,
+      payload: {
+        name: data.name,
+        userType: data.userType,
+        imageUrl: data.imageUrl,
+      },
+    });
+
+    callback(true);
+  } catch (error) {
+    callback(false);
+    // console.log(error);
   }
 };

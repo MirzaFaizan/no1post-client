@@ -19,7 +19,12 @@ import { addPost } from '../redux/posts/actions';
 
 import notification from './notifications';
 
-const CreatePost = ({ user, categories, dispatch }) => {
+const CreatePost = ({
+  user,
+  admin,
+  dispatch,
+  categories,
+}) => {
   const [loading, setLoading] = React.useState(false);
 
   const [file, setFile] = React.useState(null);
@@ -200,7 +205,7 @@ const CreatePost = ({ user, categories, dispatch }) => {
                 ? (
                   <>
                     <span className="font-weight-bold pr-3">
-                      Post for 12$
+                      { admin ? 'Create Post' : 'Post for 12$' }
                     </span>
                     <span>
                       <FaRocketchat className="icon-2x" />
@@ -229,19 +234,21 @@ const CreatePost = ({ user, categories, dispatch }) => {
 
 CreatePost.defaultProps = {
   user: null,
+  admin: false,
   categories: null,
   dispatch: null,
 };
 
 CreatePost.propTypes = {
+  admin: PropTypes.bool,
   dispatch: PropTypes.func,
   user: PropTypes.instanceOf(Object),
   categories: PropTypes.instanceOf(Object),
 };
 
-const mapStateToProps = ({ user, admin, categories }) => ({
+const mapStateToProps = ({ user, admin, categories }, props) => ({
   categories,
-  user: admin.isAuthenticated ? admin : user,
+  user: props.admin ? admin : user,
 });
 
 export default connect(mapStateToProps, null)(CreatePost);
