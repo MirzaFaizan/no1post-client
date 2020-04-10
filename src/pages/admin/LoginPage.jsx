@@ -15,7 +15,6 @@ import {
   loginAdmin,
 } from '../../redux/admin/actions';
 import {
-  ADMIN_DATA,
   API_BASE_URL,
   X_AUTH_TOKEN_ADMIN,
 } from '../../types';
@@ -47,6 +46,8 @@ const LoginPage = () => {
       })
       .then((response) => response.data)
       .then((data) => {
+        console.log(data);
+
         const payload = {
           name: data.name,
           imageUrl: data.imageUrl,
@@ -57,8 +58,9 @@ const LoginPage = () => {
 
         history.push('/admin');
 
-        localStorage.setItem(ADMIN_DATA, JSON.stringify(payload));
         localStorage.setItem(X_AUTH_TOKEN_ADMIN, data.token);
+      }).catch((error) => {
+        console.log(error.response);
       });
   };
 

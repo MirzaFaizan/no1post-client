@@ -8,14 +8,14 @@ const Reply = ({ reply }) => (
     <div>
       <Image
         circle
-        src={reply.user.imageUrl}
+        src={reply.userId.imageUrl}
         alt="User things goes here"
       />
     </div>
     <div className="pl-3">
       <div className="text-black-50">
         <span className="h3 mb-0">
-          {reply.user.name}
+          {reply.userId.name}
         </span>
       </div>
       <div className="d-flex h4 justify-content-between mb-0 pl-2 pl-md-0 text-body">

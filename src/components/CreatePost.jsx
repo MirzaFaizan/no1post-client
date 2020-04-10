@@ -16,6 +16,7 @@ import TextArea from './TextArea';
 import FileUpload from './FileUpload';
 
 import { addPost } from '../redux/posts/actions';
+import { updateRate } from '../redux/post-rate/actions';
 
 import notification from './notifications';
 
@@ -23,6 +24,7 @@ const CreatePost = ({
   user,
   admin,
   dispatch,
+  postRate,
   categories,
 }) => {
   const [loading, setLoading] = React.useState(false);
@@ -198,14 +200,14 @@ const CreatePost = ({
             type="button"
             onClick={onSubmit}
             className="align-items-center badge-pill btn btn-primary d-flex px-4"
-            disabled={loading}
+            disabled={loading || postRate.isLoading}
           >
             {
-              !loading
+              !loading || !postRate.isLoading
                 ? (
                   <>
                     <span className="font-weight-bold pr-3">
-                      { admin ? 'Create Post' : 'Post for 12$' }
+                      { admin ? 'Create Post' : `Post for ${postRate.rate}$` }
                     </span>
                     <span>
                       <FaRocketchat className="icon-2x" />
@@ -237,17 +239,20 @@ CreatePost.defaultProps = {
   admin: false,
   categories: null,
   dispatch: null,
+  postRate: null,
 };
 
 CreatePost.propTypes = {
   admin: PropTypes.bool,
   dispatch: PropTypes.func,
   user: PropTypes.instanceOf(Object),
+  postRate: PropTypes.instanceOf(Object),
   categories: PropTypes.instanceOf(Object),
 };
 
-const mapStateToProps = ({ user, admin, categories }, props) => ({
+const mapStateToProps = ({ user, admin, categories, postRate }, props) => ({
   categories,
+  postRate: postRate,
   user: props.admin ? admin : user,
 });
 

@@ -104,24 +104,34 @@ export const addComment = (postId, comment) => async (dispatch) => {
   }
 };
 
-export const addReply = (postId, commentId, reply) => async (dispatch) => {
+export const addReply = (postId, commentId, reply, callback) => async (dispatch) => {
+  const token = localStorage.getItem(X_AUTH_TOKEN);
+
   try {
-    const { data: users } = await axios.get(`${API_BASE_URL}/users`);
+    const { data } = await axios.patch(`${API_BASE_URL}/comment/reply/add`, {
+      commentId,
+      text: reply,
+    }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    data._id = data._id._id;
 
     dispatch({
       type: ADD_REPLY,
       payload: {
         postId,
         commentId,
-        reply: {
-          _id: v4(),
-          text: reply,
-          user: { ...users[1] },
-        },
+        reply: data,
       },
     });
+
+    callback(true);
   } catch (error) {
-    // console.error(error);
+    callback(false);
+    console.error(error.response);
   }
 };
 

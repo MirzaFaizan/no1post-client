@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Spinner } from 'react-bootstrap';
 
 import { addReply } from '../redux/posts/actions';
 
@@ -11,18 +12,24 @@ const CreateReply = ({
   createReply,
 }) => {
   const ref = React.useRef(null);
+
   const [reply, setReply] = React.useState('');
+  const [isLoading, setIsLoading] = React.useState(false);
 
   React.useEffect(() => {
-    if (isOpen) {
+    if (isOpen && !isLoading) {
       ref.current.focus();
     }
   }, [isOpen]);
 
   const onSubmit = (event) => {
     if (event.key.toUpperCase() === 'ENTER') {
-      createReply(postId, commentId, reply);
-      setReply('');
+      setIsLoading(true);
+
+      createReply(postId, commentId, reply, () => {
+        setReply('');
+        setIsLoading(false);
+      });
     }
   };
 
@@ -33,17 +40,27 @@ const CreateReply = ({
   };
 
   return (
-    <div className={`input-group mt-3 ${isOpen ? '' : 'd-none'}`}>
-      <input
-        ref={ref}
-        type="text"
-        name="reply"
-        value={reply}
-        onChange={onChange}
-        onKeyDown={onSubmit}
-        placeholder="Write Something..."
-        className="border-left-0 border-right-0 border-top-0 form-control"
-      />
+    <div className={`input-group mt-3 ${isOpen ? 'd-block py-2' : 'd-none'}`}>
+      {
+        isLoading
+          ? (
+            <div className="text-center">
+              <Spinner animation="border" />
+            </div>
+          )
+          : (
+            <input
+              ref={ref}
+              type="text"
+              name="reply"
+              value={reply}
+              onChange={onChange}
+              onKeyDown={onSubmit}
+              placeholder="Write Something..."
+              className="border-left-0 border-right-0 border-top-0 form-control"
+            />
+          )
+      }
     </div>
   );
 };
@@ -63,8 +80,8 @@ CreateReply.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  createReply: (postId, commentId, reply) => {
-    dispatch(addReply(postId, commentId, reply));
+  createReply: (postId, commentId, reply, callback) => {
+    dispatch(addReply(postId, commentId, reply, callback));
   },
 });
 

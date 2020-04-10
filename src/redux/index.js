@@ -10,6 +10,7 @@ import adminReducer from './admin/reducer';
 import userReducer from './user/reducer';
 import postsReducer from './posts/reducer';
 import filtersReducer from './filters/reducer';
+import postRateReducer from './post-rate/reducer';
 import authModalReducer from './auth-modal/reducer';
 import postModalReducer from './post-modal/reducer';
 import categoriesReducer from './categories/reducer';
@@ -26,6 +27,7 @@ export default () => createStore(
     user: userReducer,
     posts: postsReducer,
     filters: filtersReducer,
+    postRate: postRateReducer,
     authModal: authModalReducer,
     postModal: postModalReducer,
     categories: categoriesReducer,

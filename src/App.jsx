@@ -11,10 +11,11 @@ import {
   X_AUTH_TOKEN_ADMIN,
 } from './types';
 
-import { initUser, registerAsGuest } from './redux/user/actions';
 import { initPosts } from './redux/posts/actions';
 import { initAdmin } from './redux/admin/actions';
+import { updateRate } from './redux/post-rate/actions';
 import { initCategories } from './redux/categories/actions';
+import { initUser, registerAsGuest } from './redux/user/actions';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -39,6 +40,7 @@ const App = () => {
           }
         }));
         dispatch(initCategories());
+        dispatch(updateRate());
       }
     };
 

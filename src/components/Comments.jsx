@@ -9,7 +9,7 @@ const Comments = ({ comments, isOpen, postId }) => (
     <div className="border-top-0 card card-body pt-5 px-2 px-md-5 custom-rounded-1rem">
       {comments.map((comment) => (
         <Comment
-          key={comment.text}
+          key={comment._id}
           postId={postId}
           comment={comment}
         />
