@@ -9,6 +9,7 @@ import {
 import Image from './Image';
 import Comments from './Comments';
 import StarRating from './StarRating';
+import notification from './notifications';
 
 import { openPostModal } from '../redux/post-modal/actions';
 
@@ -23,6 +24,10 @@ const Post = ({ post }) => {
 
   const handleToggleComments = () => {
     setCommentsOpen(!commentsOpen);
+  };
+
+  const handleShare = () => {
+    notification.success('Link Copied', 'Link for the post was successfully copied to your clipboard!');
   };
 
   const displayMedia = () => {
@@ -86,7 +91,14 @@ const Post = ({ post }) => {
               <span className="h3 mb-0">
                 {post.postBy.name}
               </span>
-              <span className="h4 mb-0">Posted for 8$</span>
+              <span className="d-flex flex-column">
+                <small>
+                  Posted At: {new Date(post.createdAt).toDateString().substring(4)}
+                </small>
+                <span className="h4 mb-0">
+                  Posted For {post.postRate}$
+                </span>
+              </span>
             </div>
             <div className="h4 pb-2 pb-md-0 text-body">
               {post.description}
@@ -108,12 +120,16 @@ const Post = ({ post }) => {
             </span>
           </button>
           <div className="d-flex align-items-center">
-            <span className="custom-gray-color h2 mb-0 mr-2">
+            <button
+              type="button"
+              onClick={handleShare}
+              className="custom-gray-color h2 mb-0 mr-2"
+            >
               <FaShareSquare />
-            </span>
+            </button>
             <span>
               {/* <StarRating
-                rating={post.rating}
+                rating={post.ratings.length}
               /> */}
             </span>
           </div>
