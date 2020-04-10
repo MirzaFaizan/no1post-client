@@ -27,6 +27,7 @@ const Post = ({ post }) => {
   };
 
   const handleShare = () => {
+    window.navigator.clipboard.writeText(`${window.location.origin}/?post=${post._id}`);
     notification.success('Link Copied', 'Link for the post was successfully copied to your clipboard!');
   };
 
@@ -75,7 +76,7 @@ const Post = ({ post }) => {
 
   return (
     <>
-      <div className="bg-white custom-rounded-2rem mt-4 p-4 custom-card">
+      <div id={`post-${post._id}`} className="bg-white custom-rounded-2rem mt-4 p-4 custom-card">
         <div className="align-items-center align-items-md-baseline d-flex flex-column flex-md-row">
           <div>
             <Image

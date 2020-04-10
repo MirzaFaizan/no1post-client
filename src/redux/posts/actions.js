@@ -14,7 +14,7 @@ import {
   X_AUTH_TOKEN,
 } from '../../types';
 
-export const initPosts = () => async (dispatch) => {
+export const initPosts = (callback) => async (dispatch) => {
   const token = localStorage.getItem(X_AUTH_TOKEN);
 
   try {
@@ -27,12 +27,14 @@ export const initPosts = () => async (dispatch) => {
         },
       });
 
-      console.log(data);
-
       dispatch({
         type: INIT_POSTS,
         payload: data.article,
       });
+
+      if (callback) {
+        callback(true);
+      }
     }
   } catch (error) {
     // console.error(error);

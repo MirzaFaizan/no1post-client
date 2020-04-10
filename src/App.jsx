@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 
 import './App.css';
 import MainRouter from './router';
@@ -17,13 +18,26 @@ import { initCategories } from './redux/categories/actions';
 
 const App = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
 
   React.useEffect(() => {
     const hasRun = false;
 
     const loadData = (success) => {
       if (!hasRun && success) {
-        dispatch(initPosts());
+        dispatch(initPosts(() => {
+          if (location.search) {
+            let postId = '';
+
+            try {
+              postId = location.search.split('?post=')[1];
+            } catch (error) {
+              console.log(error);
+            }
+
+            document.getElementById(`post-${postId}`).scrollIntoView();
+          }
+        }));
         dispatch(initCategories());
       }
     };
