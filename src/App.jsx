@@ -36,7 +36,14 @@ const App = () => {
               console.log(error);
             }
 
-            document.getElementById(`post-${postId}`).scrollIntoView();
+            const scrollY = document.getElementById(`post-${postId}`).offsetTop;
+            const scrollableElement = document.getElementById('main-sider');
+
+            scrollableElement.scrollTo({
+              left: 0,
+              top: scrollY,
+              behavior: 'smooth',
+            })
           }
         }));
         dispatch(initCategories());

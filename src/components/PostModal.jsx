@@ -30,7 +30,7 @@ const PostContentModal = ({ dispatch, postModal }) => {
   const {
     image,
     isOpen,
-    rating,
+    ratings,
   } = postModal;
 
   return (
@@ -46,9 +46,10 @@ const PostContentModal = ({ dispatch, postModal }) => {
         alt="Will contain text name"
       />
       <div className="text-center">
-        {/* <StarRating
-          rating={rating}
-        /> */}
+        <StarRating
+          rating={ratings ? ratings.length : 0}
+          onChange={() => console.log('add')}
+        />
       </div>
     </Modal>
   );

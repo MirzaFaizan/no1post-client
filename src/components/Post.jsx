@@ -19,7 +19,7 @@ const Post = ({ post }) => {
   const [commentsOpen, setCommentsOpen] = React.useState(false);
 
   const handlePreview = () => {
-    dispatch(openPostModal(post.mediaUrl, post.rating));
+    dispatch(openPostModal(post.mediaUrl, post.ratings));
   };
 
   const handleToggleComments = () => {
@@ -129,9 +129,10 @@ const Post = ({ post }) => {
               <FaShareSquare />
             </button>
             <span>
-              {/* <StarRating
+              <StarRating
                 rating={post.ratings.length}
-              /> */}
+                onChange={() => console.log('add rating')}
+              />
             </span>
           </div>
         </div>

@@ -6,7 +6,6 @@ import {
   ADD_REPLY,
   INIT_POSTS,
   ADD_COMMENT,
-  // REMOVE_COMMENT,
 } from './types';
 
 import {
