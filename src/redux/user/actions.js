@@ -34,9 +34,11 @@ export const initUser = (callback) => async (dispatch) => {
         dispatch({
           type: LOGIN_USER,
           payload: {
+            _id: user._id,
             name: user.name,
             email: user.email,
             imageUrl: user.imageUrl,
+            userType: user.userType || 'guest',
           },
         });
 
@@ -64,9 +66,11 @@ export const loginUser = (email, password, callback) => async (dispatch) => {
     dispatch({
       type: LOGIN_USER,
       payload: {
+        _id: data._id,
         name: data.name,
         email: data.email,
         imageUrl: data.imageUrl,
+        userType: data.userType || 'guest',
       },
     });
 

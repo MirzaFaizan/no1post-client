@@ -85,6 +85,11 @@ html {
   background-color: transparent;
 }
 
+.navbar-input {
+  font-size: 16px;
+  padding: 4px 8px;
+}
+
 /* Animations */
 .animation-fade-in {
   animation: FadeIn 0.65s ease-out 0s;

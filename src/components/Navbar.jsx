@@ -6,6 +6,9 @@ import { FaSearch } from 'react-icons/fa';
 import Image from './Image';
 
 import {
+  setSearchFilter,
+} from '../redux/filters/actions';
+import {
   openAuthModal as openAuthModalAction,
 } from '../redux/auth-modal/actions';
 
@@ -15,6 +18,8 @@ const Navbar = ({
   heading,
   imageUrl,
   userType,
+  setSearch,
+  searchFilter,
   openAuthModal,
   isAuthenticated,
 }) => {
@@ -63,10 +68,25 @@ const Navbar = ({
             {heading}
           </span>
         </div>
+        
         <div className="align-items-center d-flex">
-          <span className="mr-3 mr-md-5">
+          <div>
+            <textarea
+              name="search"
+              placeholder="Search"
+              value={searchFilter}
+              onChange={setSearch}
+              rows={1}
+              class="form-control navbar-input"
+            />
+          </div>
+          <button
+            type="button"
+            onClick={() => console.log('search')}
+            className="mr-3 mr-md-5 button-invisible"
+          >
             <FaSearch className="icon-2x" />
-          </span>
+          </button>
           {getNavbarActions()}
         </div>
       </nav>
@@ -75,6 +95,8 @@ const Navbar = ({
 };
 
 Navbar.defaultProps = {
+  dispatch: null,
+  searchFilter: '',
   userType: 'guest',
   openAuthModal: null,
   imageUrl: DefaultImage,
@@ -83,21 +105,29 @@ Navbar.defaultProps = {
 };
 
 Navbar.propTypes = {
+  setSearch: null,
+  dispatch: PropTypes.func,
   heading: PropTypes.string,
   imageUrl: PropTypes.string,
   userType: PropTypes.string,
   openAuthModal: PropTypes.func,
+  searchFilter: PropTypes.string,
   isAuthenticated: PropTypes.bool,
 };
 
-const mapStateToProps = ({ user }) => ({
+const mapStateToProps = ({ user, filters }) => ({
   imageUrl: user.imageUrl,
   userType: user.userType,
+  searchFilter: filters.search,
   isAuthenticated: user.isAuthenticated,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   openAuthModal: () => dispatch(openAuthModalAction()),
+  setSearch: (event) => {
+    const { value } = event.target;
+    dispatch(setSearchFilter(value));
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

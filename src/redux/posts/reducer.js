@@ -7,6 +7,7 @@ import {
   REMOVE_COMMENT,
   ADD_REPLY,
   REMOVE_REPLY,
+  RATE_POST,
 } from './types';
 
 const initState = [];
@@ -43,7 +44,14 @@ export default (state = [...initState], { type, payload }) => {
           : { ...post }
       ));
     case REMOVE_COMMENT:
-      return state.filter((post) => post._id !== payload);
+      return state.map((post) => (
+        post._id === payload.postId
+          ? {
+            ...post,
+            comments: post.comments.filter((comment) => comment._id !== payload.commentId)
+          }
+          : { ...post }
+      ));
     // Post Replies
     case ADD_REPLY:
       return state.map((post) => (
@@ -73,7 +81,7 @@ export default (state = [...initState], { type, payload }) => {
               comment._id === payload.commentId
                 ? {
                   ...comment,
-                  replies: comment.replies.filter((reply) => reply._id === payload.replyId),
+                  replies: comment.replies.filter((reply) => reply._id !== payload.replyId),
                 }
                 : { ...comment }
             )),
@@ -81,6 +89,18 @@ export default (state = [...initState], { type, payload }) => {
           : { ...post }
       ));
 
+    case RATE_POST:
+      return state.map((post) => (
+        post._id === payload.postId
+          ? {
+            ...post,
+            ratings: [
+              ...post.ratings,
+              { rating: payload.rating },
+            ]
+          }
+          : { ...post }
+      ));
     default:
       return state;
   }

@@ -35,3 +35,5 @@ export const updateRate = (callback) => async (dispatch) => {
     console.log(error);
   }
 };
+
+export const setRateLoading = () => ({ type: LOADING_RATE });

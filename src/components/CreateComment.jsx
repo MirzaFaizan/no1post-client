@@ -30,6 +30,7 @@ const CreateComment = ({ createComment, postId }) => {
         value={comment}
         onChange={onChange}
         onKeyDown={onSubmit}
+        autoComplete="off"
       />
     </div>
   );

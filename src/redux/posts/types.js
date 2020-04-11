@@ -10,3 +10,6 @@ export const REMOVE_COMMENT = 'REMOVE_COMMENT';
 // Post Replies
 export const ADD_REPLY = 'ADD_REPLY';
 export const REMOVE_REPLY = 'REMOVE_REPLY';
+
+// Post Rating
+export const RATE_POST = 'RATE_POST';

@@ -1,17 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { FiHeart } from 'react-icons/fi';
-import { FaReply } from 'react-icons/fa';
+import { FaReply, FaTrash, FaHeart } from 'react-icons/fa';
 
 import Image from './Image';
 import Replies from './Replies';
 import CreateReply from './CreateReply';
 
-const Comment = ({ comment, postId }) => {
+import DefaultUserImage from '../assets/img/default-user.png';
+
+import { removeComment } from '../redux/posts/actions';
+
+const Comment = ({
+  comment,
+  postId,
+  userId,
+  userType,
+  dispatch,
+}) => {
+  const [liked, setLike] = React.useState(false);
   const [createReplyOpen, setCreateReplyOpen] = React.useState(false);
+
+  const handleLike = () => setLike(!liked);
 
   const handleToggleCreateReply = () => {
     setCreateReplyOpen(!createReplyOpen);
+  };
+
+  const handleRemove = () => {
+    dispatch(removeComment(postId, comment._id));
   };
 
   return (
@@ -19,8 +37,8 @@ const Comment = ({ comment, postId }) => {
       <div>
         <Image
           circle
-          src={comment.userId.imageUrl}
           alt={comment.userId.name}
+          src={comment.userId.imageUrl || DefaultUserImage}
         />
       </div>
       <div className="col">
@@ -34,6 +52,17 @@ const Comment = ({ comment, postId }) => {
             {comment.text}
           </div>
           <div className="h4 mb-0 text-right">
+            {
+              (userId === comment.userId._id && userType !== 'guest') && (
+                <button
+                  type="button"
+                  onClick={handleRemove}
+                  className="button-invisible mr-3"
+                >
+                  <FaTrash />
+                </button>
+              )
+            }
             <button
               type="button"
               className="button-invisible mr-3"
@@ -41,12 +70,22 @@ const Comment = ({ comment, postId }) => {
             >
               <FaReply />
             </button>
-            <span>
-              <FiHeart />
-            </span>
+            <button
+              type="button"
+              className="button-invisible mr-3"
+              onClick={handleLike}
+            >
+              {
+                liked
+                  ? <FaHeart className="text-danger" />
+                  : <FiHeart />
+              }
+            </button>
           </div>
         </div>
         <Replies
+          postId={postId}
+          commentId={comment._id}
           replies={comment.replies}
         />
         <CreateReply
@@ -61,12 +100,23 @@ const Comment = ({ comment, postId }) => {
 
 Comment.defaultProps = {
   postId: '',
+  userId: '',
+  userType: '',
   comment: {},
+  dispatch: null,
 };
 
 Comment.propTypes = {
   postId: PropTypes.string,
+  userId: PropTypes.string,
+  dispatch: PropTypes.func,
+  userType: PropTypes.string,
   comment: PropTypes.instanceOf(Object),
 };
 
-export default Comment;
+const mapStateToProps = (state) => ({
+  userId: state.user._id,
+  userType: state.user.userType,
+});
+
+export default connect(mapStateToProps)(Comment);

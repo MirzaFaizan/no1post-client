@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, Spinner } from 'react-bootstrap';
+// import StripeCheckout from 'react-stripe-checkout';
+// import { PayPalButton } from 'react-paypal-button-v2';
 import {
   FiMic,
   FiImage,
@@ -66,7 +68,9 @@ const CreatePost = ({
   const onSubmit = () => {
     setLoading(true);
 
-    dispatch(addPost(file, description, category, (success) => {
+    console.log('onSubmit');
+
+    dispatch(addPost(file, tempFileType, description, category, (success) => {
       setLoading(false);
 
       if (success) {
@@ -81,6 +85,7 @@ const CreatePost = ({
       setCategory('');
       setTempFileURL('');
       setDescription('');
+      setTempFileType('');
     }));
   };
 
@@ -114,6 +119,11 @@ const CreatePost = ({
       default:
         return null;
     }
+  };
+  
+  const handleToken = (token) => {
+    console.log(postRate);
+    console.log(token);
   };
 
   return (
@@ -203,7 +213,7 @@ const CreatePost = ({
             disabled={loading || postRate.isLoading}
           >
             {
-              !loading || !postRate.isLoading
+              !loading && !postRate.isLoading
                 ? (
                   <>
                     <span className="font-weight-bold pr-3">
@@ -213,6 +223,21 @@ const CreatePost = ({
                       <FaRocketchat className="icon-2x" />
                     </span>
                   </>
+                  // <StripeCheckout
+                  //   currency="USD"
+                  //   email={user.email}
+                  //   token={handleToken}
+                  //   billingAddress={false}
+                  //   shippingAddress={false}
+                  //   amount={postRate.rate * 100}
+                  //   stripeKey="pk_test_b5TM5xwfx9cXw1eyNqWoBhTz00n4IFkQiJ"
+                  // />
+                  // <PayPalButton
+                  //   current="USD"
+                  //   amount={postRate.rate}
+                  //   onSuccess={console.log}
+                  //   shippingPreference="NO_SHIPPING"
+                  // />
                 )
                 : (
                   <>

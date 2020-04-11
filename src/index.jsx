@@ -15,6 +15,8 @@ import './index.css';
 import './assets/css/react.css';
 import './assets/css/style.css';
 import './assets/css/scrollbar.css';
+import 'react-html5video/dist/styles.css';
+import 'react-responsive-audio-player/dist/audioplayer.min.css'
 
 import App from './App';
 

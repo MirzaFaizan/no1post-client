@@ -11,25 +11,28 @@ import ClientRouter from './ClientRouter';
 import LoginPage from '../pages/admin/LoginPage';
 
 const MainRouter = () => (
-  <Switch>
-    <Route
-      exact
-      path="/admin/login"
-      component={LoginPage}
-    />
-    <Route
-      path="/admin"
-      component={AdminRouter}
-    />
-    <Route
-      path="/"
-      component={ClientRouter}
-    />
-    <Route
-      path="*"
-      component={() => <Redirect to="/" />}
-    />
-  </Switch>
+  <>
+    <input type="hidden" />
+    <Switch>
+      <Route
+        exact
+        path="/admin/login"
+        component={LoginPage}
+      />
+      <Route
+        path="/admin"
+        component={AdminRouter}
+      />
+      <Route
+        path="/"
+        component={ClientRouter}
+      />
+      <Route
+        path="*"
+        component={() => <Redirect to="/" />}
+      />
+    </Switch>
+  </>
 );
 
 export default MainRouter;

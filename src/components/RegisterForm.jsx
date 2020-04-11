@@ -151,13 +151,13 @@ const RegisterForm = () => {
                 className="custom-user-pic-2 custom-filter-1"
               />
             </button>
-            <button type="button" className="btn">
+            <a href="http://postno1.herokuapp.com/signin/google" className="btn">
               <img
                 alt="Icon"
                 src={GoogleIcon}
                 className="custom-user-pic-2 custom-filter-1"
               />
-            </button>
+            </a>
           </div>
         </div>
       </div>

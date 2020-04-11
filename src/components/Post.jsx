@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
+import AudioPlayer from 'react-responsive-audio-player';
+import { DefaultPlayer as VideoPlayer } from 'react-html5video';
 import {
+  FaTrash,
   FaComment,
   FaShareSquare,
 } from 'react-icons/fa';
@@ -12,11 +15,34 @@ import StarRating from './StarRating';
 import notification from './notifications';
 
 import { openPostModal } from '../redux/post-modal/actions';
+import { removePost, ratePost } from '../redux/posts/actions';
 
-const Post = ({ post }) => {
-  const dispatch = useDispatch();
-
+const Post = ({
+  post,
+  userId,
+  userType,
+  dispatch,
+}) => {
+  const [averageRating, setAverageRating] = React.useState(0);
   const [commentsOpen, setCommentsOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    const rating = post.ratings.reduce((a, rating) => {
+      return a + rating.rating;
+    }, 0);
+
+    const { length } = post.ratings;
+
+    if (rating <= 0 && length <= 0) {
+      setAverageRating(0);
+    } else {
+      setAverageRating(rating / length);
+    }
+  }, [post.ratings.length]);
+
+  const handleRatePost = (rating) => {
+    dispatch(ratePost(post._id, rating));
+  };
 
   const handlePreview = () => {
     dispatch(openPostModal(post.mediaUrl, post.ratings));
@@ -31,30 +57,30 @@ const Post = ({ post }) => {
     notification.success('Link Copied', 'Link for the post was successfully copied to your clipboard!');
   };
 
+  const handleRemove = () => {
+    dispatch(removePost(post._id));
+  };
+
   const displayMedia = () => {
     if (post.mediaType === 'audio') {
       return (
-        // <audio
-        //   controls
-        //   className="filter-drop-shadow-gray h-100 w-100"
-        // >
-        //   <source src={post.mediaUrl} type="audio/mp3" />
-        // </audio>
-        <audio
-          controls
-          src={post.mediaUrl}
+        <AudioPlayer
+          playlist={[
+            { url: post.mediaUrl }
+          ]}
         />
       );
     }
 
     if (post.mediaType === 'video') {
       return (
-        <video
-          controls
-          className="filter-drop-shadow-gray h-100 w-100"
-        >
-          <source src={post.mediaUrl} />
-        </video>
+        <div className="text-center d-block w-100">
+          <VideoPlayer
+            controls={['PlayPause', 'Seek', 'Time', 'Volume', 'Fullscreen']}
+          >
+            <source src={post.mediaUrl} />
+          </VideoPlayer>
+        </div>
       );
     }
 
@@ -104,6 +130,19 @@ const Post = ({ post }) => {
             <div className="h4 pb-2 pb-md-0 text-body">
               {post.description}
             </div>
+            {
+              userId === post.postBy._id && userType !== 'guest' && (
+                <div className="text-right">
+                  <button
+                    type="button"
+                    onClick={handleRemove}
+                    className="button-invisible"
+                  >
+                    <FaTrash className="icon-2x" />
+                  </button>
+                </div>
+              )
+            }
           </div>
         </div>
         <div className="pt-4 media">
@@ -130,8 +169,8 @@ const Post = ({ post }) => {
             </button>
             <span>
               <StarRating
-                rating={post.ratings.length}
-                onChange={() => console.log('add rating')}
+                rating={averageRating}
+                onChange={handleRatePost}
               />
             </span>
           </div>
@@ -148,10 +187,21 @@ const Post = ({ post }) => {
 
 Post.defaultProps = {
   post: {},
+  userId: '',
+  userType: '',
+  dispatch: null,
 };
 
 Post.propTypes = {
+  userId: PropTypes.string,
+  userType: PropTypes.string,
+  dispatch: PropTypes.func,
   post: PropTypes.instanceOf(Object),
 };
 
-export default Post;
+const mapStateToProps = (state) => ({
+  userId: state.user._id,
+  userType: state.user.userType,
+});
+
+export default connect(mapStateToProps)(Post);

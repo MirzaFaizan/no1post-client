@@ -6,6 +6,7 @@ import {
 import DefaultUserImage from '../../assets/img/default-user.png';
 
 const initState = {
+  _id: '',
   name: '',
   email: '',
   userType: '',
@@ -20,9 +21,9 @@ export default (state = { ...initState }, { type, payload }) => {
     case LOGIN_USER:
       return {
         ...payload,
-        imageUrl: (payload.imageUrl || DefaultUserImage),
         isLoading: false,
         isAuthenticated: true,
+        imageUrl: (payload.imageUrl || DefaultUserImage),
       };
     case LOGOUT_USER:
       return {
