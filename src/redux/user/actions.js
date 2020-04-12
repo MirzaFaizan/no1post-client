@@ -36,7 +36,7 @@ export const initUser = (callback) => async (dispatch) => {
           payload: {
             _id: user._id,
             name: user.name,
-            email: user.email,
+            email: user.email || '',
             imageUrl: user.imageUrl,
             userType: user.userType || 'guest',
           },

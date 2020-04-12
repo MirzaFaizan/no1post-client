@@ -42,8 +42,8 @@ const UsersPage = () => {
         },
       })
       .then(() => {
-        if (type === 'guest') {
-          setGuests(guests.filter((guest) => guest._id !== id));
+        if (type === 'user') {
+          setUsers(guests.filter((user) => user._id !== id));
         } else {
           setGuests(guests.filter((guest) => guest._id !== id));
         }

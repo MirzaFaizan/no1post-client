@@ -7,9 +7,7 @@ import {
 } from 'react-icons/fi';
 
 import FileUpload from './FileUpload';
-
-import GoogleIcon from '../assets/img/icons/Google.svg';
-import FacebookIcon from '../assets/img/icons/Facebook.svg';
+import SocialAuth from './SocialAuth';
 
 import { registerUser } from '../redux/user/actions';
 import { validateEmail, fetchUsernameFromEmail } from '../helpers';
@@ -143,7 +141,8 @@ const RegisterForm = () => {
             <span className="font-weight-bold px-3">Register</span>
           </button>
           <span className="text-body">Or</span>
-          <div>
+          <SocialAuth />
+          {/* <div>
             <button type="button" className="btn">
               <img
                 alt="Icon"
@@ -158,7 +157,7 @@ const RegisterForm = () => {
                 className="custom-user-pic-2 custom-filter-1"
               />
             </a>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

@@ -90,12 +90,46 @@ export default (state = [...initState], { type, payload }) => {
       ));
 
     case RATE_POST:
+      // rating: { ratingPoints: 60, _id: "someId" }
+
+      const found = state.some((post) => {
+        if (post._id === payload.postId) {
+          return post.rating.some((rating) => {
+            if (rating._id === payload.rating._id) {
+              return true;
+            }
+
+            return false;
+          });
+        }
+
+        return false;
+      });
+
+      if (found) {
+        return state.map((post) => (
+          post._id === payload.postId
+            ? {
+              ...post,
+              rating: post.rating.map((rating) => (
+                rating._id === payload.rating._id
+                  ? {
+                    ...rating,
+                    ratingPoints: payload.rating.ratingPoints,
+                  }
+                  : { ...rating }
+              ))
+            }
+            : { ...post }
+        ));
+      }
+
       return state.map((post) => (
         post._id === payload.postId
           ? {
             ...post,
-            ratings: [
-              ...post.ratings,
+            rating: [
+              ...post.rating,
               { rating: payload.rating },
             ]
           }

@@ -5,8 +5,7 @@ import {
   FiLock,
 } from 'react-icons/fi';
 
-import GoogleIcon from '../assets/img/icons/Google.svg';
-import FacebookIcon from '../assets/img/icons/Facebook.svg';
+import SocialAuth from './SocialAuth';
 
 import { validateEmail } from '../helpers';
 import { loginUser } from '../redux/user/actions';
@@ -124,7 +123,8 @@ const LoginForm = () => {
             <span className="font-weight-bold px-3">Login</span>
           </button>
           <span className="text-body mb-3">Or</span>
-          <div>
+          <SocialAuth />
+          {/* <div>
             <button type="button" className="btn">
               <img
                 alt="Icon"
@@ -139,7 +139,7 @@ const LoginForm = () => {
                 className="custom-user-pic-2 custom-filter-1"
               />
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

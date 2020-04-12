@@ -7,8 +7,9 @@ import {
 } from 'react-bootstrap';
 
 import AddPostModal from '../../components/AddPostModal';
+import { removePost } from '../../redux/posts/actions';
 
-const PostPage = ({ posts }) => {
+const PostPage = ({ posts, dispatch }) => {
   const [addModalOpen, setAddModalOpen] = React.useState(false);
 
   const onAddModalOpen = () => {
@@ -25,9 +26,9 @@ const PostPage = ({ posts }) => {
         Post Page
       </h2>
       <div className="mb-2">
-        {/* <Button type="button" variant="primary" onClick={onAddModalOpen}>
+        <Button type="button" variant="primary" onClick={onAddModalOpen}>
           Add Post
-        </Button> */}
+        </Button>
       </div>
       <div>
         <Table striped bordered hover>
@@ -51,6 +52,7 @@ const PostPage = ({ posts }) => {
                   <button
                     type="button"
                     className="btn btn-sm btn-danger"
+                    onClick={() => dispatch(removePost(post._id))}
                   >
                     Delete
                   </button>

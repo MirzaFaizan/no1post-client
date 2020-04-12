@@ -26,20 +26,6 @@ const Post = ({
   const [averageRating, setAverageRating] = React.useState(0);
   const [commentsOpen, setCommentsOpen] = React.useState(false);
 
-  React.useEffect(() => {
-    const rating = post.ratings.reduce((a, rating) => {
-      return a + rating.rating;
-    }, 0);
-
-    const { length } = post.ratings;
-
-    if (rating <= 0 && length <= 0) {
-      setAverageRating(0);
-    } else {
-      setAverageRating(rating / length);
-    }
-  }, [post.ratings.length]);
-
   const handleRatePost = (rating) => {
     dispatch(ratePost(post._id, rating));
   };
@@ -123,7 +109,11 @@ const Post = ({
                   Posted At: {new Date(post.createdAt).toDateString().substring(4)}
                 </small>
                 <span className="h4 mb-0">
-                  Posted For {post.postRate}$
+                  {
+                    post.postRate <= 0
+                      ? ''
+                      : `Posted For ${post.postRate / 100}$`
+                  }
                 </span>
               </span>
             </div>

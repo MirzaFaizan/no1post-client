@@ -14,6 +14,7 @@ import {
 import {
   API_BASE_URL,
   X_AUTH_TOKEN,
+  X_AUTH_TOKEN_ADMIN,
 } from '../../types';
 
 import { updateRate, setRateLoading } from '../post-rate/actions';
@@ -45,12 +46,14 @@ export const initPosts = (callback) => async (dispatch) => {
   }
 };
 
-export const addPost = (file, fileType, description, category, callback) => async (dispatch) => {
+export const addPost = (stripeToken, postRate, file, fileType, description, category, callback) => async (dispatch) => {
   try {
     const formData = new FormData();
 
     const token = localStorage.getItem(X_AUTH_TOKEN);
 
+    formData.append('stripeToken', stripeToken);
+    formData.append('postRate', postRate * 100);
     formData.append('mediaUrl', file);
     formData.append('category', category);
     formData.append('mediaType', fileType);
@@ -74,26 +77,52 @@ export const addPost = (file, fileType, description, category, callback) => asyn
     dispatch(setRateLoading());
     dispatch(updateRate());
   } catch (error) {
+    console.log(error.response);
+
     if (callback) {
       callback(false, error);
     }
   }
 };
 
+export const adminAddPost = (description, category, file, fileType) => async (dispatch) => {
+  const token = localStorage.getItem(X_AUTH_TOKEN_ADMIN);
+
+  const formData = new FormData();
+
+  formData.append('mediaUrl', file);
+  formData.append('mediaType', fileType);
+  formData.append('category', category);
+  formData.append('description', description);
+
+  try {
+    const { data } = await axios.post(`${API_BASE_URL}/admin/post/add`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    dispatch({
+      type: ADD_POST,
+      payload: data.savedArticle,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const removePost = (postId) => async (dispatch) => {
-  const token = localStorage.getItem(X_AUTH_TOKEN);
+  const token = localStorage.getItem(X_AUTH_TOKEN_ADMIN);
 
   try {
     if (!token) {
       // do nothing
     } else {
-      // const { data } = await axios.delete(`${API_BASE_URL}/post/remove`, {
-      //   headers: {
-      //     Authorization: token,
-      //   },
-      // });
-
-      // console.log(data);
+      const { data } = await axios.delete(`${API_BASE_URL}/admin/post/delete/${postId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       dispatch({
         type: REMOVE_POST,
@@ -101,7 +130,7 @@ export const removePost = (postId) => async (dispatch) => {
       });
     }
   } catch (error) {
-    console.log(error);
+    console.log(error.response);
   }
 };
 
@@ -141,11 +170,11 @@ export const removeComment = (postId, commentId) => async (dispatch) => {
   const token = localStorage.getItem(X_AUTH_TOKEN);
 
   try {
-    // const { data } = await axios.delete(`${API_BASE_URL}/comment/remove`, {
-    //   headers: {
-    //     Authorization: `Bearer ${token}`,
-    //   },
-    // });
+    const { data } = await axios.delete(`${API_BASE_URL}/comment/delete/${commentId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     dispatch({
       type: REMOVE_COMMENT,
@@ -173,6 +202,8 @@ export const addReply = (postId, commentId, reply, callback) => async (dispatch)
       },
     });
 
+    console.log(data);
+
     data._id = data._id._id;
 
     dispatch({
@@ -195,14 +226,28 @@ export const removeReply = (postId, commentId, replyId) => async (dispatch) => {
   const token = localStorage.getItem(X_AUTH_TOKEN);
 
   try {
-    dispatch({
-      type: REMOVE_REPLY,
-      payload: {
-        postId,
+    const { data } = await axios({
+      method: 'DELETE',
+      url: `${API_BASE_URL}/comment/reply/${replyId}`,
+      data: {
         replyId,
         commentId,
       },
-    });
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+
+    console.log(data);
+
+    // dispatch({
+    //   type: REMOVE_REPLY,
+    //   payload: {
+    //     postId,
+    //     replyId,
+    //     commentId,
+    //   },
+    // });
   } catch (error) {
     console.error(error);
   }
@@ -212,11 +257,22 @@ export const ratePost = (postId, rating) => async (dispatch) => {
   const token = localStorage.getItem(X_AUTH_TOKEN);
 
   try {
+    const { data } = await axios.patch(`${API_BASE_URL}/rating/add`, {
+      resourceId: postId,
+      ratingPoints: rating * 20,
+    }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log(data);
+
     dispatch({
       type: RATE_POST,
       payload: {
         postId,
-        rating,
+        rating: data.newlyAddedRating,
       },
     });
   } catch (error) {

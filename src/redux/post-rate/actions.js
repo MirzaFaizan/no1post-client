@@ -19,7 +19,7 @@ export const updateRate = (callback) => async (dispatch) => {
       .then((response) => {
         dispatch({
           type: UPDATE_RATE,
-          payload: response.data.currentRate,
+          payload: response.data.currentPostRate,
         });
 
         if (callback)

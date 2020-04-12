@@ -15,10 +15,11 @@ const Categories = ({ categories, dispatch }) => {
     <div className="d-flex flex-column align-items-center text-center category-wrapper">
       <h2 className="h2 py-5">Categories</h2>
       <ul className="list-group list-unstyled">
-        {categories.map(({ _id, category }) => (
+        {categories.map(({ _id, category, icon }) => (
           <Category
             key={_id}
             _id={_id}
+            icon={icon}
             name={category}
             onSelectCategory={onSelectCategory}
           />

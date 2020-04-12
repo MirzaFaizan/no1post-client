@@ -47,7 +47,7 @@ html {
 
 .category-item-icon {
   margin: auto;
-  font-size: 42px;
+  font-size: 32px;
   margin-top: 14px;
 }
 
@@ -88,6 +88,10 @@ html {
 .navbar-input {
   font-size: 16px;
   padding: 4px 8px;
+}
+
+.opaque {
+  opacity: 0.7;
 }
 
 /* Animations */

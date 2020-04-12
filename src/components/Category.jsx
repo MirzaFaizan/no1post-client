@@ -7,6 +7,7 @@ import {
 const Category = React.memo(({
   _id,
   name,
+  icon,
   onSelectCategory,
 }) => {
   const handleOnSelectCategory = () => {
@@ -21,7 +22,7 @@ const Category = React.memo(({
         className="category-link text-decoration-none button-invisible d-inline"
       >
         <span className="mx-auto category-item rounded-circle shadow btn-outline-info">
-          <FiHeart className="category-item-icon" />
+          <i className={`category-item-icon ${icon}`} />
         </span>
         <div className="mt-3 h4 text-center">
           {name}

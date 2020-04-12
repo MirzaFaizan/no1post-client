@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, Spinner } from 'react-bootstrap';
-// import StripeCheckout from 'react-stripe-checkout';
-// import { PayPalButton } from 'react-paypal-button-v2';
+import StripeCheckout from 'react-stripe-checkout';
 import {
   FiMic,
   FiImage,
@@ -65,12 +64,10 @@ const CreatePost = ({
     }
   };
 
-  const onSubmit = () => {
+  const onSubmit = (token) => {
     setLoading(true);
 
-    console.log('onSubmit');
-
-    dispatch(addPost(file, tempFileType, description, category, (success) => {
+    dispatch(addPost(token, postRate.rate, file, tempFileType, description, category, (success) => {
       setLoading(false);
 
       if (success) {
@@ -122,8 +119,8 @@ const CreatePost = ({
   };
   
   const handleToken = (token) => {
-    console.log(postRate);
     console.log(token);
+    onSubmit(token.id);
   };
 
   return (
@@ -206,53 +203,43 @@ const CreatePost = ({
               ))
             }
           </Form.Control>
-          <button
-            type="button"
-            onClick={onSubmit}
-            className="align-items-center badge-pill btn btn-primary d-flex px-4"
-            disabled={loading || postRate.isLoading}
-          >
-            {
-              !loading && !postRate.isLoading
-                ? (
-                  <>
-                    <span className="font-weight-bold pr-3">
-                      { admin ? 'Create Post' : `Post for ${postRate.rate}$` }
-                    </span>
-                    <span>
-                      <FaRocketchat className="icon-2x" />
-                    </span>
-                  </>
-                  // <StripeCheckout
-                  //   currency="USD"
-                  //   email={user.email}
-                  //   token={handleToken}
-                  //   billingAddress={false}
-                  //   shippingAddress={false}
-                  //   amount={postRate.rate * 100}
-                  //   stripeKey="pk_test_b5TM5xwfx9cXw1eyNqWoBhTz00n4IFkQiJ"
-                  // />
-                  // <PayPalButton
-                  //   current="USD"
-                  //   amount={postRate.rate}
-                  //   onSuccess={console.log}
-                  //   shippingPreference="NO_SHIPPING"
-                  // />
-                )
-                : (
-                  <>
-                    <Spinner
-                      as="span"
-                      animation="border"
-                      size="sm"
-                      role="status"
-                      aria-hidden="true"
-                    />
-                    <span className="sr-only">Loading...</span>
-                  </>
-                )
-            }
-          </button>
+          {
+            !loading && !postRate.isLoading
+              ? (
+                <StripeCheckout
+                  name="CreatePost"
+                  currency="USD"
+                  email={user.email}
+                  token={handleToken}
+                  billingAddress={false}
+                  shippingAddress={false}
+                  amount={postRate.rate * 100}
+                  stripeKey="pk_test_b5TM5xwfx9cXw1eyNqWoBhTz00n4IFkQiJ"
+                >
+                  <button
+                    type="button"
+                    disabled={loading || postRate.isLoading}
+                    className="align-items-center badge-pill btn btn-primary d-flex px-4"
+                  >
+                    { admin ? 'Create Post' : `Post for ${postRate.rate}$` }
+                  </button>
+                </StripeCheckout>
+              )
+              : (
+                <span
+                  className="align-items-center badge-pill opaque btn btn-primary d-flex px-4"
+                >
+                  <span className="mr-2">Loading...</span>
+                  <Spinner
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                </span>
+              )
+          }
         </div>
       </div>
     </div>

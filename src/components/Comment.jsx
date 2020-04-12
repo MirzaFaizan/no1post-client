@@ -70,7 +70,7 @@ const Comment = ({
             >
               <FaReply />
             </button>
-            <button
+            {/* <button
               type="button"
               className="button-invisible mr-3"
               onClick={handleLike}
@@ -80,7 +80,7 @@ const Comment = ({
                   ? <FaHeart className="text-danger" />
                   : <FiHeart />
               }
-            </button>
+            </button> */}
           </div>
         </div>
         <Replies

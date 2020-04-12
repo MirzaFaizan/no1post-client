@@ -16,7 +16,7 @@ import EditCategoryModal from '../../components/EditCategoryModal';
 
 const CategoryPage = ({ categories, remove }) => {
   const [selectedCategory, setSelectedCategory] = React.useState({
-    _id: '', category: '', imageUrl: '',
+    _id: '', category: '', icon: '',
   });
   const [addModalOpen, setAddModalOpen] = React.useState(false);
   const [editModalOpen, setEditModalOpen] = React.useState(false);
@@ -43,7 +43,7 @@ const CategoryPage = ({ categories, remove }) => {
               <th>ID</th>
               <th>Name</th>
               <th>Slug</th>
-              <th>Image</th>
+              <th>Icon</th>
               <th className="text-center">Actions</th>
             </tr>
           </thead>
@@ -53,15 +53,7 @@ const CategoryPage = ({ categories, remove }) => {
                 <td>{category._id}</td>
                 <td>{category.category}</td>
                 <td>{category.slug}</td>
-                <td>
-                  <img
-                    src={category.imageUrl}
-                    width="25"
-                    height="25"
-                    alt={category.name}
-                    className="object-fit-cover"
-                  />
-                </td>
+                <td><i className={category.icon}></i></td>
                 <td className="text-center">
                   <button
                     type="button"

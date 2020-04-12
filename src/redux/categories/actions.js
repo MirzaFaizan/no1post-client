@@ -7,21 +7,19 @@ import {
   CLEAR_CATEGORIES,
 } from './types';
 
-import { API_BASE_URL, X_AUTH_TOKEN } from '../../types';
+import { API_BASE_URL, X_AUTH_TOKEN, X_AUTH_TOKEN_ADMIN } from '../../types';
 
-export const addCategory = (category, image, callback) => async (dispatch) => {
-  const token = localStorage.getItem(X_AUTH_TOKEN);
+export const addCategory = (category, icon, callback) => async (dispatch) => {
+  const token = localStorage.getItem(X_AUTH_TOKEN_ADMIN);
 
   try {
     if (!token) {
       // No Token, Do NothinG
     } else {
-      const formData = new FormData();
-
-      formData.append('imageUrl', image);
-      formData.append('category', category);
-
-      const { data } = await axios.post(`${API_BASE_URL}/category/add`, formData, {
+      const { data } = await axios.post(`${API_BASE_URL}/category/add`, {
+        icon,
+        category,
+      }, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -44,19 +42,17 @@ export const addCategories = (categories = []) => ({
   payload: categories,
 });
 
-export const editCategory = (id, category, image, callback) => async (dispatch) => {
-  const token = localStorage.getItem(X_AUTH_TOKEN);
+export const editCategory = (id, category, icon, callback) => async (dispatch) => {
+  const token = localStorage.getItem(X_AUTH_TOKEN_ADMIN);
 
   try {
     if (!token) {
       // Do NothinG
     } else {
-      const formData = new FormData();
-
-      formData.append('imageUrl', image);
-      formData.append('category', category);
-
-      await axios.put(`${API_BASE_URL}/category/update/${id}`, formData, {
+      await axios.put(`${API_BASE_URL}/category/update/${id}`, {
+        icon,
+        category,
+      }, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -67,8 +63,8 @@ export const editCategory = (id, category, image, callback) => async (dispatch) 
         payload: {
           id,
           category: {
+            icon,
             category,
-            imageUrl: `https://postno1.s3.amazonaws.com/${image.name}`,
           },
         },
       });
@@ -81,8 +77,14 @@ export const editCategory = (id, category, image, callback) => async (dispatch) 
 };
 
 export const initCategories = () => async (dispatch) => {
+  const token = localStorage.getItem(X_AUTH_TOKEN_ADMIN);
+
   try {
-    const { data } = await axios.get(`${API_BASE_URL}/category/getAllCategory`);
+    const { data } = await axios.get(`${API_BASE_URL}/category/getAllCategory`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    });
 
     dispatch({
       type: INIT_CATEGORIES,
@@ -94,7 +96,7 @@ export const initCategories = () => async (dispatch) => {
 };
 
 export const removeCategory = (id) => async (dispatch) => {
-  const token = localStorage.getItem(X_AUTH_TOKEN);
+  const token = localStorage.getItem(X_AUTH_TOKEN_ADMIN);
 
   try {
     if (!token) {

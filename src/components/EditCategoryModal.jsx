@@ -1,4 +1,5 @@
 import React from 'react';
+import Select from 'react-select';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import {
@@ -9,6 +10,18 @@ import {
 
 import { editCategory } from '../redux/categories/actions';
 
+import fontawesomeClassNames from '../types/icons-list';
+
+let selectOptions;
+
+selectOptions = [
+  {value: '', label: 'Select Icon'},
+  ...fontawesomeClassNames.map((name) => ({
+    value: name,
+    label: <><span className={name}></span> {name}</>,
+  }))
+];
+
 const EditCategoryModal = ({
   isOpen,
   onClose,
@@ -17,31 +30,25 @@ const EditCategoryModal = ({
   const dispatch = useDispatch();
 
   const [categoryId, setCategoryId] = React.useState('');
+  const [categoryIcon, setCategoryIcon] = React.useState(category.icon);
   const [categoryName, setCategoryName] = React.useState(category.category);
-  const [categoryImage, setCategoryImage] = React.useState(category.imageUrl);
-  const [categoryImageFile, setCategoryImageFile] = React.useState(null);
 
   React.useEffect(() => {
     setCategoryId(category._id);
+    setCategoryIcon(category.icon);
     setCategoryName(category.category);
-    setCategoryImage(category.imageUrl);
-    setCategoryImageFile(null);
   }, [category._id]);
 
   const onChange = (event) => {
     setCategoryName(event.target.value);
   };
 
-  const onUpload = (event) => {
-    const [file] = event.target.files;
-
-    if (file) {
-      setCategoryImageFile(file);
-    }
+  const onChangeIcon = (data) => {
+    setCategoryIcon(data.value);
   };
 
   const onSubmit = () => {
-    dispatch(editCategory(categoryId, categoryName, categoryImageFile, (success) => {
+    dispatch(editCategory(categoryId, categoryName, categoryIcon, (success) => {
       if (success) {
         onClose();
       }
@@ -51,18 +58,9 @@ const EditCategoryModal = ({
   return (
     <Modal show={isOpen} onHide={onClose}>
       <Modal.Header closeButton>
-        <h1>Add Category</h1>
+        <h1>Edit Category</h1>
       </Modal.Header>
       <Modal.Body>
-        <div className="mb-2">
-          <img
-            src={categoryImage}
-            alt={category.category}
-            width="40px"
-            height="40px"
-            className="object-fit-cover"
-          />
-        </div>
         <Form.Group>
           <Form.Label>Name</Form.Label>
           <Form.Control
@@ -72,11 +70,12 @@ const EditCategoryModal = ({
           />
         </Form.Group>
         <Form.Group>
-          <Form.Label>Category Image</Form.Label>
-          <Form.Control
-            type="file"
-            accept="image/*"
-            onChange={onUpload}
+          <Form.Label>Category Icon <i className={`${categoryIcon} text-danger`}></i></Form.Label>
+          <Select
+            value={categoryIcon}
+            name="category-icon"
+            onChange={onChangeIcon}
+            options={selectOptions}
           />
         </Form.Group>
       </Modal.Body>

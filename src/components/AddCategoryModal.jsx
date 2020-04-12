@@ -1,4 +1,5 @@
 import React from 'react';
+import Select from 'react-select';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import {
@@ -9,26 +10,34 @@ import {
 
 import { addCategory } from '../redux/categories/actions';
 
+import fontawesomeClassNames from '../types/icons-list';
+
+let selectOptions;
+
+selectOptions = [
+  {value: '', label: 'Select Icon'},
+  ...fontawesomeClassNames.map((name) => ({
+    value: name,
+    label: <><span className={name}></span> {name}</>,
+  }))
+];
+
 const AddCategoryModal = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
 
   const [category, setCategory] = React.useState('');
-  const [categoryImage, setCategoryImage] = React.useState(null);
+  const [categoryIcon, setCategoryIcon] = React.useState('');
 
   const onChange = (event) => {
     setCategory(event.target.value);
   };
 
-  const onUpload = (event) => {
-    const [file] = event.target.files;
-
-    if (file) {
-      setCategoryImage(file);
-    }
+  const onChangeIcon = (data) => {
+    setCategoryIcon(data.value);
   };
 
   const onSubmit = () => {
-    dispatch(addCategory(category, categoryImage, (success) => {
+    dispatch(addCategory(category, categoryIcon, (success) => {
       if (success) {
         onClose();
       }
@@ -50,11 +59,12 @@ const AddCategoryModal = ({ isOpen, onClose }) => {
           />
         </Form.Group>
         <Form.Group>
-          <Form.Label>Category Image</Form.Label>
-          <Form.Control
-            type="file"
-            accept="image/*"
-            onChange={onUpload}
+          <Form.Label>Category Icon <i className={`${categoryIcon} text-danger`}></i></Form.Label>
+          <Select
+            value={categoryIcon}
+            name="category-icon"
+            onChange={onChangeIcon}
+            options={selectOptions}
           />
         </Form.Group>
       </Modal.Body>
