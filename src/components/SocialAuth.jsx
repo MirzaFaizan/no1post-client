@@ -31,6 +31,8 @@ const SocialAuth = () => {
 
   };
 
+  console.log('SOCIAL AUTH');
+
   return (
     <div>
       <FacebookLogin
@@ -53,7 +55,7 @@ const SocialAuth = () => {
         clientId="943084470616-5e59iref3jcan2cl25u23mot8ecp51v1.apps.googleusercontent.com"
         onSuccess={responseGoogle}
         onFailure={responseGoogle}
-        // cookiePolicy={'single_host_origin'}
+        cookiePolicy={'single_host_origin'}
         render={(renderProps) => (
           <button
             type="button"
