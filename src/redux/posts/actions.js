@@ -266,8 +266,6 @@ export const ratePost = (postId, rating) => async (dispatch) => {
       },
     });
 
-    console.log(data);
-
     dispatch({
       type: RATE_POST,
       payload: {

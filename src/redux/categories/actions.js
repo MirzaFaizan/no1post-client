@@ -77,7 +77,7 @@ export const editCategory = (id, category, icon, callback) => async (dispatch) =
 };
 
 export const initCategories = () => async (dispatch) => {
-  const token = localStorage.getItem(X_AUTH_TOKEN_ADMIN);
+  const token = localStorage.getItem(X_AUTH_TOKEN);
 
   try {
     const { data } = await axios.get(`${API_BASE_URL}/category/getAllCategory`, {
