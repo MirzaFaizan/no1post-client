@@ -50,7 +50,7 @@ const SocialAuth = () => {
         )}
       />
       <GoogleLogin
-        clientId="943084470616-vln0i1sh2d5nc4u02kgcalmnunri892p.apps.googleusercontent.com"
+        clientId="943084470616-5e59iref3jcan2cl25u23mot8ecp51v1.apps.googleusercontent.com"
         onSuccess={responseGoogle}
         onFailure={responseGoogle}
         // cookiePolicy={'single_host_origin'}
