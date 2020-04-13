@@ -33,6 +33,12 @@ const MyNavbar = ({
   openAuthModal,
   isAuthenticated,
 }) => {
+  const preventReturn = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+    }
+  };
+
   const getNavbarActions = () => {
     // guest, notAuthenticated etc
     if (!isAuthenticated) {
@@ -45,6 +51,7 @@ const MyNavbar = ({
           <Nav.Link>
             Signed in as Guest: <img
               alt="User"
+              className="rounded-circle"
               height="25px"
               src="https://postno1.s3.us-east-2.amazonaws.com/default-user.png"
               width="25px"
@@ -106,6 +113,7 @@ const MyNavbar = ({
               placeholder="Search"
               value={searchFilter}
               onChange={setSearch}
+              onKeyDown={preventReturn}
               rows={1}
               className="form-control navbar-input"
             />

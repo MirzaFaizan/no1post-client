@@ -42,7 +42,7 @@ const Post = ({
   };
 
   const handlePreview = () => {
-    dispatch(openPostModal(post.mediaUrl, post.ratings));
+    dispatch(openPostModal(post._id, post.mediaUrl));
   };
 
   const handleToggleComments = () => {
@@ -132,7 +132,7 @@ const Post = ({
               {post.description}
             </div>
             {
-              userId === post.postBy._id && userType !== 'guest' && (
+              userId === post.postBy._id && (
                 <div className="text-right">
                   <button
                     type="button"

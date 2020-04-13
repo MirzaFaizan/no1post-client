@@ -4,8 +4,8 @@ import {
 } from './types';
 
 const initState = {
+  _id: '',
   image: '',
-  rating: 0,
   isOpen: false,
 };
 

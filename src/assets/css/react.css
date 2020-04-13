@@ -18,7 +18,7 @@ html {
 .react-modal img {
   border-radius: 2rem;
   max-width: 800px;
-  min-height: calc(100% - 3.5rem);
+  max-height: 80vh;
 }
 
 .react-modal:focus {

@@ -43,7 +43,29 @@ const SocialAuth = () => {
 
   const responseFacebook = (response) => {
     console.log(response);
-    dispatch(closeAuthModal());
+    let imageUrl = '';
+
+    const { id: facebookId, name, picture, email = '' } = response;
+
+    try {
+      imageUrl = picture.data.url
+    } catch (error) {
+      // Handle Error
+    }
+
+    axios
+      .post(`${API_BASE_URL}/auth/facebook`, {
+        name, email, imageUrl, facebookId,
+      })
+      .then((res) => {
+        const { data: { token }} = res;
+        const _id = res.data._id || "";
+        dispatch(closeAuthModal());
+        dispatch(socialLogin(token, _id, name, email, imageUrl));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (

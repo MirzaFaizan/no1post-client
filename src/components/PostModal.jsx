@@ -6,13 +6,26 @@ import { connect } from 'react-redux';
 import {
   closePostModal,
 } from '../redux/post-modal/actions';
+import { ratePost } from '../redux/posts/actions';
 
 import StarRating from './StarRating';
 
 Modal.setAppElement(document.getElementById('root'));
 
-const PostContentModal = ({ dispatch, postModal }) => {
+const PostContentModal = ({ dispatch, postModal, rating }) => {
   const [animation, setAnimation] = React.useState('');
+  const [averageRating, setAverageRating] = React.useState(0);
+
+  React.useEffect(() => {
+    const { length } = rating;
+    const ratingSum = rating.reduce((a, r) => a + (r.ratingPoints / 20), 0);
+
+    if (ratingSum <= 0 && length <= 0) {
+      setAverageRating(0);
+    } else {
+      setAverageRating(ratingSum / length);
+    }
+  }, [rating]);
 
   const handleOnOpen = () => {
     setAnimation('animation-fade-in');
@@ -27,10 +40,13 @@ const PostContentModal = ({ dispatch, postModal }) => {
     }, 450);
   };
 
+  const handleRatePost = (rating) => {
+    dispatch(ratePost(postModal._id, rating));
+  };
+
   const {
     image,
     isOpen,
-    ratings,
   } = postModal;
 
   return (
@@ -47,8 +63,8 @@ const PostContentModal = ({ dispatch, postModal }) => {
       />
       <div className="text-center">
         <StarRating
-          rating={ratings ? ratings.length : 0}
-          onChange={() => console.log('add')}
+          rating={averageRating}
+          onChange={handleRatePost}
         />
       </div>
     </Modal>
@@ -65,6 +81,18 @@ PostContentModal.propTypes = {
   postModal: PropTypes.instanceOf(Object),
 };
 
-const mapStateToProps = ({ postModal }) => ({ postModal });
+const mapStateToProps = ({ posts, postModal }) => {
+  let rating = [];
+  const post = posts.find((post) => post._id === postModal._id);
+
+  if (post) {
+    rating = post.rating;
+  }
+
+  return {
+    rating,
+    postModal,
+  };
+};
 
 export default connect(mapStateToProps, null)(PostContentModal);

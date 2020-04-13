@@ -3,11 +3,11 @@ import {
   CLOSE_POST_MODAL,
 } from './types';
 
-export const openPostModal = (image, rating) => ({
+export const openPostModal = (_id, image) => ({
   type: OPEN_POST_MODAL,
   payload: {
+    _id,
     image,
-    rating,
   },
 });
 

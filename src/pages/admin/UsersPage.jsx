@@ -43,7 +43,7 @@ const UsersPage = () => {
       })
       .then(() => {
         if (type === 'user') {
-          setUsers(guests.filter((user) => user._id !== id));
+          setUsers(users.filter((user) => user._id !== id));
         } else {
           setGuests(guests.filter((guest) => guest._id !== id));
         }

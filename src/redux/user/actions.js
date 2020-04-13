@@ -53,8 +53,12 @@ export const initUser = (callback) => async (dispatch) => {
         callback(false);
       }
     } catch (error) {
-      dispatch(logoutUser());
-      callback(false);
+      if (error.response && error.response.status === 400) {
+        dispatch(registerAsGuest(callback));
+      } else {
+        dispatch(logoutUser());
+        callback(false);
+      }
     }
   }
 };
