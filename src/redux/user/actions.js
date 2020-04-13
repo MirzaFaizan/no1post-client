@@ -16,6 +16,11 @@ export const logoutUser = () => (dispatch) => {
   });
 };
 
+export const logoutUserAndRegisterAsGuest = () => (dispatch) => {
+  dispatch(logoutUser());
+  dispatch(registerAsGuest(() => {}));
+};
+
 export const initUser = (callback) => async (dispatch) => {
   const token = localStorage.getItem(X_AUTH_TOKEN);
 

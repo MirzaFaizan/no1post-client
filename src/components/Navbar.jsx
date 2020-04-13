@@ -1,6 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import {
+  Button,
+  Form,
+  Nav,
+  Navbar,
+  NavDropdown,
+  Spinner,
+} from 'react-bootstrap';
 import { FaSearch } from 'react-icons/fa';
 
 import Image from './Image';
@@ -11,11 +19,11 @@ import {
 import {
   openAuthModal as openAuthModalAction,
 } from '../redux/auth-modal/actions';
-import { logoutUser } from '../redux/user/actions';
+import { logoutUserAndRegisterAsGuest } from '../redux/user/actions';
 
 import DefaultImage from '../assets/img/default-user.png';
 
-const Navbar = ({
+const MyNavbar = ({
   logout,
   heading,
   imageUrl,
@@ -26,62 +34,73 @@ const Navbar = ({
   isAuthenticated,
 }) => {
   const getNavbarActions = () => {
+    // guest, notAuthenticated etc
     if (!isAuthenticated) {
-      return (
-        <button
-          type="button"
-          onClick={openAuthModal}
-          className="badge-pill btn btn-primary font-weight-bold px-md-4 py-1 py-md-2"
-        >
-          Login / Sign Up
-        </button>
-      );
+      return <Spinner animation="border" />
     }
-    
+
     if (userType === 'guest') {
       return (
         <>
-          <button
-            type="button"
-            onClick={openAuthModal}
-            className="badge-pill btn btn-primary font-weight-bold px-md-4 py-1 py-md-2 mr-3"
-          >
-            Login / Sign Up
-          </button>
-          <span>
-            <Image circle alt="User" src={imageUrl} />
-          </span>
+          <Nav.Link>
+            Signed in as Guest: <img
+              alt="User"
+              height="25px"
+              src="https://postno1.s3.us-east-2.amazonaws.com/default-user.png"
+              width="25px"
+            />
+          </Nav.Link>
+          <Nav.Link>
+            <Button
+              variant="primary"
+              className="badge-pill"
+              onClick={openAuthModal}
+            >
+              Signin / Signup
+            </Button>
+          </Nav.Link>
         </>
       );
     }
 
     return (
       <>
-        <button
-          type="button"
-          onClick={logout}
-          className="badge-pill btn btn-primary font-weight-bold px-md-4 py-1 py-md-2 mr-3"
+        <NavDropdown
+          title={
+            <img
+              alt="User"
+              height="50px"
+              src={imageUrl}
+              width="50px"
+            />
+          }
+          id="basic-nav-dropdown"
         >
-          Logout
-        </button>
-        <span>
-          <Image circle alt="User" src={imageUrl} />
-        </span>
+          <NavDropdown.Item onClick={logout}>
+            Logout
+          </NavDropdown.Item>
+        </NavDropdown>
+        {/* <Nav.Link>
+          <Button
+            type="button"
+            variant="primary"
+            className="badge-pill"
+            onClick={openAuthModal}
+          >
+            Signin / Signup
+          </Button>
+        </Nav.Link> */}
       </>
     );
   };
   
   return (
-    <header>
-      <nav className="align-items-center bg-white d-flex justify-content-between px-2 px-md-4 py-2">
-        <div>
-          <span className="h3">
-            {heading}
-          </span>
-        </div>
-        
-        <div className="align-items-center d-flex">
-          <div>
+    <Navbar bg="white" expand="lg">
+      <Navbar.Brand href="#">{heading}</Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+        <div className="navbar-group">
+          <Form inline className="mr-2">
             <textarea
               name="search"
               placeholder="Search"
@@ -90,22 +109,24 @@ const Navbar = ({
               rows={1}
               className="form-control navbar-input"
             />
-          </div>
-          <button
-            type="button"
-            onClick={() => console.log('search')}
-            className="mr-3 mr-md-5 button-invisible"
-          >
-            <FaSearch className="icon-2x" />
-          </button>
-          {getNavbarActions()}
+            <button
+              type="button"
+              onClick={() => console.log('search')}
+              className="mr-3 mr-md-5 button-invisible"
+            >
+              <FaSearch className="icon-2x" />
+            </button>
+          </Form>
+          <Nav>
+            {getNavbarActions()}
+          </Nav>
         </div>
-      </nav>
-    </header>
+      </Navbar.Collapse>
+    </Navbar>
   );
 };
 
-Navbar.defaultProps = {
+MyNavbar.defaultProps = {
   logout: null,
   dispatch: null,
   searchFilter: '',
@@ -116,7 +137,7 @@ Navbar.defaultProps = {
   isAuthenticated: false,
 };
 
-Navbar.propTypes = {
+MyNavbar.propTypes = {
   logout: PropTypes.func,
   dispatch: PropTypes.func,
   heading: PropTypes.string,
@@ -136,12 +157,12 @@ const mapStateToProps = ({ user, filters }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  logout: () => dispatch(logoutUser()),
   openAuthModal: () => dispatch(openAuthModalAction()),
+  logout: () => dispatch(logoutUserAndRegisterAsGuest()),
   setSearch: (event) => {
     const { value } = event.target;
     dispatch(setSearchFilter(value));
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
+export default connect(mapStateToProps, mapDispatchToProps)(MyNavbar);

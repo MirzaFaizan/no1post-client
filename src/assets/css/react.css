@@ -86,12 +86,17 @@ html {
 }
 
 .navbar-input {
-  font-size: 16px;
-  padding: 4px 8px;
+  font-size: 16px !important;
+  padding: 4px 8px !important;
 }
 
 .opaque {
   opacity: 0.7;
+}
+
+.navbar-group {
+  display: flex;
+  margin-left: auto !important;
 }
 
 /* Animations */
@@ -126,5 +131,15 @@ html {
   100% {
     opacity: 0;
     transform: translate(-50%, calc(-50% - 25px));
+  }
+}
+
+/* Media Queries */
+
+@media only screen and (max-width: 991px) {
+  .navbar-group {
+    display: block;
+    margin-left: none;
+    padding-top: 15px;
   }
 }

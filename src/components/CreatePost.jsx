@@ -208,7 +208,6 @@ const CreatePost = ({
                 <StripeCheckout
                   name="CreatePost"
                   currency="USD"
-                  email={user.email}
                   token={handleToken}
                   billingAddress={false}
                   shippingAddress={false}

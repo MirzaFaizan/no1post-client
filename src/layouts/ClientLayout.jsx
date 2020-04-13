@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Navbar from '../components/Navbar';
+import MyNavbar from '../components/Navbar';
 
 const ClientLayout = ({ children }) => (
   <section className="container-fluid px-0 container-for-scroll custom-primary-color-text">
-    <Navbar />
+    <MyNavbar />
     <div className="h-100 ml-md-3 mr-0 mx-0 row">
       { children }
     </div>
