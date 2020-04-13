@@ -17,22 +17,29 @@ export const initAdmin = (callback) => async (dispatch) => {
 
     callback(false);
   } else {
-    const { data: user } = await axios.get(`${API_BASE_URL}/user/getProfileByToken`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    try {
+      const { data: user } = await axios.get(`${API_BASE_URL}/user/getProfileByToken`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      dispatch({
+        type: LOGIN,
+        payload: {
+          name: user.name,
+          email: user.email,
+          imageUrl: user.imageUrl,
+        },
+      });
 
-    dispatch({
-      type: LOGIN,
-      payload: {
-        name: user.name,
-        email: user.email,
-        imageUrl: user.imageUrl,
-      },
-    });
-
-    callback(true);
+      callback(true);
+    } catch (error) {
+      callback(false);
+      dispatch({
+        type: LOGOUT,
+      });
+    }
   }
 };
 

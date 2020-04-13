@@ -25,8 +25,9 @@ const Reply = ({
       <div>
         <Image
           circle
-          src={reply.userId.imageUrl}
           alt={reply.userId.name}
+          src={reply.userId.imageUrl}
+          className="object-fit-cover"
         />
       </div>
       <div className="pl-3 flex-grow-1">

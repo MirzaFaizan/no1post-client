@@ -12,14 +12,16 @@ import { API_BASE_URL } from '../types';
 import { socialLogin } from '../redux/user/actions';
 import { closeAuthModal } from '../redux/auth-modal/actions';
 
+import notification from './notifications';
+
 const SocialAuth = () => {
   const dispatch = useDispatch();
 
   const responseGoogle = (response) => {
-    console.log(response);
-    const { error } = response;
+    const { error } = responseGoogle;
     if (error) {
       console.log(error);
+      notification.error('Failed', 'Failure to login with Google.');
     } else {
       const { profileObj } = response;
       if (profileObj) {
@@ -29,10 +31,11 @@ const SocialAuth = () => {
             const { token } = res.data;
             const { imageUrl, email, name } = profileObj;
 
-            const _id = res.data._id || '';
+            const _id = res.data.id || '';
 
             dispatch(closeAuthModal());
             dispatch(socialLogin(token, _id, name, email, imageUrl));
+            notification.success('Success', 'You have been logged in with Google');
           })
           .catch(err => {
             console.log(err.response);
@@ -42,30 +45,37 @@ const SocialAuth = () => {
   };
 
   const responseFacebook = (response) => {
-    console.log(response);
-    let imageUrl = '';
+    const { error } = response;
 
-    const { id: facebookId, name, picture, email = '' } = response;
+    if (error) {
+      notification.error('Failed', 'Failure to login with Facebook.');
+    } else {
+      let imageUrl = '';
+  
+      const { id: facebookId, name, picture, email = '' } = response;
+  
+      try {
+        imageUrl = picture.data.url
+      } catch (error) {
+        // Handle Error
+      }
+  
+      axios
+        .post(`${API_BASE_URL}/auth/facebook`, {
+          name, email, imageUrl, facebookId,
+        })
+        .then((res) => {
+          const { data: { token }} = res;
+          const _id = res.data.id || "";
+          dispatch(closeAuthModal());
+          dispatch(socialLogin(token, _id, name, email, imageUrl));
 
-    try {
-      imageUrl = picture.data.url
-    } catch (error) {
-      // Handle Error
+          notification.success('Success', 'You have been logged in with Facebook');
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
-
-    axios
-      .post(`${API_BASE_URL}/auth/facebook`, {
-        name, email, imageUrl, facebookId,
-      })
-      .then((res) => {
-        const { data: { token }} = res;
-        const _id = res.data._id || "";
-        dispatch(closeAuthModal());
-        dispatch(socialLogin(token, _id, name, email, imageUrl));
-      })
-      .catch((error) => {
-        console.log(error);
-      });
   };
 
   return (

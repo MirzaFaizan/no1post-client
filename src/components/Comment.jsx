@@ -35,6 +35,7 @@ const Comment = ({
           circle
           alt={comment.userId.name}
           src={comment.userId.imageUrl || DefaultUserImage}
+          className="object-fit-cover"
         />
       </div>
       <div className="col">

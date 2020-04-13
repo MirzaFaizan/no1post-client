@@ -108,6 +108,7 @@ const Post = ({
               width="70px"
               height="70px"
               src={post.postBy.imageUrl}
+              className="object-fit-cover"
             />
           </div>
           <div className="col text-center text-md-left">

@@ -66,7 +66,7 @@ export const initUser = (callback) => async (dispatch) => {
 export const loginUser = (email, password, callback) => async (dispatch) => {
   try {
     const { data } = await axios.post(`${API_BASE_URL}/signin`, {
-      email,
+      email: email.toLowerCase(),
       password,
     });
 
@@ -104,7 +104,7 @@ export const registerUser = (name, email, password, avatar, callback) => async (
     const formData = new FormData();
 
     formData.append('name', name);
-    formData.append('email', email);
+    formData.append('email', email.toLowerCase());
     formData.append('password', password);
     formData.append('imageUrl', avatar);
 

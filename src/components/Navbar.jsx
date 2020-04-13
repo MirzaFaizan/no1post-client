@@ -24,6 +24,7 @@ import { logoutUserAndRegisterAsGuest } from '../redux/user/actions';
 import DefaultImage from '../assets/img/default-user.png';
 
 const MyNavbar = ({
+  name,
   logout,
   heading,
   imageUrl,
@@ -51,10 +52,10 @@ const MyNavbar = ({
           <Nav.Link>
             Signed in as Guest: <img
               alt="User"
-              className="rounded-circle"
-              height="25px"
+              className="object-fit-cover rounded-circle"
+              height="35px"
               src="https://postno1.s3.us-east-2.amazonaws.com/default-user.png"
-              width="25px"
+              width="35px"
             />
           </Nav.Link>
           <Nav.Link>
@@ -72,6 +73,9 @@ const MyNavbar = ({
 
     return (
       <>
+        <Nav.Link>
+          Signed in as {name}
+        </Nav.Link>
         <NavDropdown
           title={
             <img
@@ -79,6 +83,7 @@ const MyNavbar = ({
               height="50px"
               src={imageUrl}
               width="50px"
+              className="object-fit-cover rounded-circle"
             />
           }
           id="basic-nav-dropdown"
@@ -135,6 +140,7 @@ const MyNavbar = ({
 };
 
 MyNavbar.defaultProps = {
+  name: '',
   logout: null,
   dispatch: null,
   searchFilter: '',
@@ -146,6 +152,7 @@ MyNavbar.defaultProps = {
 };
 
 MyNavbar.propTypes = {
+  name: PropTypes.string,
   logout: PropTypes.func,
   dispatch: PropTypes.func,
   heading: PropTypes.string,
@@ -158,6 +165,7 @@ MyNavbar.propTypes = {
 };
 
 const mapStateToProps = ({ user, filters }) => ({
+  name: user.name,
   imageUrl: user.imageUrl,
   userType: user.userType,
   searchFilter: filters.search,

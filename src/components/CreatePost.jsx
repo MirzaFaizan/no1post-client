@@ -36,15 +36,22 @@ const CreatePost = ({
   const [tempFileType, setTempFileType] = React.useState('');
 
   const onUpload = (uploadedFile) => {
-    setFile(uploadedFile);
-    setTempFileURL(URL.createObjectURL(uploadedFile));
-
-    if (uploadedFile.type.includes('audio/')) {
-      setTempFileType('audio');
-    } else if (uploadedFile.type.includes('video/')) {
-      setTempFileType('video');
-    } else {
-      setTempFileType('image');
+    if (uploadedFile) {
+      setFile(uploadedFile);
+  
+      try {
+        setTempFileURL(URL.createObjectURL(uploadedFile));
+      } catch(error) {
+        // handle error
+      }
+  
+      if (uploadedFile.type.includes('audio/')) {
+        setTempFileType('audio');
+      } else if (uploadedFile.type.includes('video/')) {
+        setTempFileType('video');
+      } else {
+        setTempFileType('image');
+      }
     }
   };
 
@@ -75,7 +82,11 @@ const CreatePost = ({
         notification.error('Post Failed', 'Oops! Failed to create the post.');
       }
 
-      URL.revokeObjectURL(tempFileURL);
+      try {
+        URL.revokeObjectURL(tempFileURL);
+      } catch (error) {
+        // handle error
+      }
 
       setFile(null);
       setCategory('');

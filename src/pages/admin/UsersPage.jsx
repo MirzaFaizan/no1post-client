@@ -42,14 +42,17 @@ const UsersPage = () => {
         },
       })
       .then(() => {
+        // Handle On Success
+      })
+      .catch(() => {
+        // Handle Error
+      })
+      .finally(() => {
         if (type === 'user') {
           setUsers(users.filter((user) => user._id !== id));
         } else {
           setGuests(guests.filter((guest) => guest._id !== id));
         }
-      })
-      .catch(() => {
-        // Handle Error
       });
   };
 
