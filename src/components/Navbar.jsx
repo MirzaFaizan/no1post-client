@@ -11,10 +11,12 @@ import {
 import {
   openAuthModal as openAuthModalAction,
 } from '../redux/auth-modal/actions';
+import { logoutUser } from '../redux/user/actions';
 
 import DefaultImage from '../assets/img/default-user.png';
 
 const Navbar = ({
+  logout,
   heading,
   imageUrl,
   userType,
@@ -54,9 +56,18 @@ const Navbar = ({
     }
 
     return (
-      <span>
-        <Image circle alt="User" src={imageUrl} />
-      </span>
+      <>
+        <button
+          type="button"
+          onClick={logout}
+          className="badge-pill btn btn-primary font-weight-bold px-md-4 py-1 py-md-2 mr-3"
+        >
+          Logout
+        </button>
+        <span>
+          <Image circle alt="User" src={imageUrl} />
+        </span>
+      </>
     );
   };
   
@@ -95,6 +106,7 @@ const Navbar = ({
 };
 
 Navbar.defaultProps = {
+  logout: null,
   dispatch: null,
   searchFilter: '',
   userType: 'guest',
@@ -106,6 +118,7 @@ Navbar.defaultProps = {
 
 Navbar.propTypes = {
   setSearch: null,
+  logout: PropTypes.func,
   dispatch: PropTypes.func,
   heading: PropTypes.string,
   imageUrl: PropTypes.string,
@@ -123,6 +136,7 @@ const mapStateToProps = ({ user, filters }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  logout: () => dispatch(logoutUser()),
   openAuthModal: () => dispatch(openAuthModalAction()),
   setSearch: (event) => {
     const { value } = event.target;

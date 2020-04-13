@@ -1,12 +1,19 @@
 import React from 'react';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
 import { GoogleLogin } from 'react-google-login';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 
 import GoogleIcon from '../assets/img/icons/Google.svg';
 import FacebookIcon from '../assets/img/icons/Facebook.svg';
 
+import { API_BASE_URL } from '../types';
+
+import { socialLogin } from '../redux/user/actions';
+
 const SocialAuth = () => {
+  const dispatch = useDispatch();
+
   const responseGoogle = (response) => {
     console.log(response);
     const { error } = response;
@@ -16,9 +23,14 @@ const SocialAuth = () => {
       const { profileObj } = response;
       if (profileObj) {
         axios
-          .post('/auth/google', profileObj)
+          .post(`${API_BASE_URL}/auth/google`, profileObj)
           .then((res) => {
-            console.log('MyAPI response:', res);
+            const { token } = res.data;
+            const { imageUrl, email, name } = profileObj;
+
+            const _id = res.data._id || '';
+
+            dispatch(socialLogin(token, _id, name, email, imageUrl));
           })
           .catch(err => {
             console.log(err.response);
@@ -52,7 +64,7 @@ const SocialAuth = () => {
         )}
       />
       <GoogleLogin
-        clientId="943084470616-5e59iref3jcan2cl25u23mot8ecp51v1.apps.googleusercontent.com"
+        clientId="943084470616-35lvsq482katpj9k7v7nbbljgudqi5mm.apps.googleusercontent.com"
         onSuccess={responseGoogle}
         onFailure={responseGoogle}
         cookiePolicy={'single_host_origin'}

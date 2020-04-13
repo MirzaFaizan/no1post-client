@@ -130,7 +130,7 @@ export default (state = [...initState], { type, payload }) => {
             ...post,
             rating: [
               ...post.rating,
-              { rating: payload.rating },
+              { ...payload.rating },
             ]
           }
           : { ...post }

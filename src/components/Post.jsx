@@ -26,6 +26,17 @@ const Post = ({
   const [averageRating, setAverageRating] = React.useState(0);
   const [commentsOpen, setCommentsOpen] = React.useState(false);
 
+  React.useEffect(() => {
+    const { length } = post.rating;
+    const rating = post.rating.reduce((a, r) => a + (r.ratingPoints / 20), 0);
+
+    if (rating <= 0 && length <= 0) {
+      setAverageRating(0);
+    } else {
+      setAverageRating(rating / length);
+    }
+  }, [post.rating]);
+
   const handleRatePost = (rating) => {
     dispatch(ratePost(post._id, rating));
   };

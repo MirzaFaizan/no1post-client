@@ -138,3 +138,18 @@ export const registerAsGuest = (callback) => async (dispatch) => {
     // console.log(error);
   }
 };
+
+export const socialLogin = (token, _id, name, email, imageUrl) => async (dispatch) => {
+  localStorage.setItem(X_AUTH_TOKEN, token);
+
+  dispatch({
+    type: LOGIN_USER,
+    payload: {
+      _id,
+      name,
+      email,
+      imageUrl,
+      userType: 'user',
+    },
+  });
+};
