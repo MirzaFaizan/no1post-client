@@ -129,8 +129,62 @@ const CreatePost = ({
   };
   
   const handleToken = (token) => {
-    console.log(token);
     onSubmit(token.id);
+  };
+
+  const validate = () => {
+    notification.error('Error', 'Make sure to provide description, select category and upload a media file.');
+  };
+
+  const renderButton = () => {
+    if (loading || postRate.isLoading) {
+      return (
+        <span className="align-items-center badge-pill opaque btn btn-primary d-flex px-4">
+          <span className="mr-2">Loading...</span>
+          <Spinner
+            as="span"
+            animation="border"
+            size="sm"
+            role="status"
+            aria-hidden="true"
+          />
+        </span>
+      );
+    }
+
+    if (!file || !category || !description) {
+      return (
+        <button
+          type="button"
+          onClick={validate}
+          className="align-items-center badge-pill btn btn-primary d-flex px-4"
+        >
+          { admin ? 'Create Post' : `Post for ${postRate.rate}$ ` }
+          <FaRocketchat />
+        </button>
+      );
+    }
+
+    return (
+      <StripeCheckout
+        name="CreatePost"
+        currency="USD"
+        token={handleToken}
+        billingAddress={false}
+        shippingAddress={false}
+        amount={postRate.rate * 100}
+        stripeKey="pk_test_b5TM5xwfx9cXw1eyNqWoBhTz00n4IFkQiJ"
+      >
+        <button
+          type="button"
+          disabled={loading || postRate.isLoading}
+          className="align-items-center badge-pill btn btn-primary d-flex px-4"
+        >
+          { admin ? 'Create Post' : `Post for ${postRate.rate}$ ` }
+          <FaRocketchat />
+        </button>
+      </StripeCheckout>
+    );
   };
 
   return (
@@ -213,43 +267,7 @@ const CreatePost = ({
               ))
             }
           </Form.Control>
-          {
-            !loading && !postRate.isLoading
-              ? (
-                <StripeCheckout
-                  name="CreatePost"
-                  currency="USD"
-                  token={handleToken}
-                  billingAddress={false}
-                  shippingAddress={false}
-                  amount={postRate.rate * 100}
-                  stripeKey="pk_test_b5TM5xwfx9cXw1eyNqWoBhTz00n4IFkQiJ"
-                >
-                  <button
-                    type="button"
-                    disabled={loading || postRate.isLoading}
-                    className="align-items-center badge-pill btn btn-primary d-flex px-4"
-                  >
-                    { admin ? 'Create Post' : `Post for ${postRate.rate}$ ` }
-                    <FaRocketchat />
-                  </button>
-                </StripeCheckout>
-              )
-              : (
-                <span
-                  className="align-items-center badge-pill opaque btn btn-primary d-flex px-4"
-                >
-                  <span className="mr-2">Loading...</span>
-                  <Spinner
-                    as="span"
-                    animation="border"
-                    size="sm"
-                    role="status"
-                    aria-hidden="true"
-                  />
-                </span>
-              )
-          }
+          {renderButton()}
         </div>
       </div>
     </div>
