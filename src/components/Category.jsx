@@ -1,8 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  FiHeart,
-} from 'react-icons/fi';
 
 const Category = React.memo(({
   _id,

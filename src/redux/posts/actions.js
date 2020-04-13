@@ -118,7 +118,7 @@ export const removePost = (postId) => async (dispatch) => {
     if (!token) {
       // do nothing
     } else {
-      const { data } = await axios.delete(`${API_BASE_URL}/admin/post/delete/${postId}`, {
+      await axios.delete(`${API_BASE_URL}/admin/post/delete/${postId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -170,7 +170,7 @@ export const removeComment = (postId, commentId) => async (dispatch) => {
   const token = localStorage.getItem(X_AUTH_TOKEN);
 
   try {
-    const { data } = await axios.delete(`${API_BASE_URL}/comment/delete/${commentId}`, {
+    await axios.delete(`${API_BASE_URL}/comment/delete/${commentId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -202,8 +202,6 @@ export const addReply = (postId, commentId, reply, callback) => async (dispatch)
       },
     });
 
-    console.log(data);
-
     data._id = data._id._id;
 
     dispatch({
@@ -226,7 +224,7 @@ export const removeReply = (postId, commentId, replyId) => async (dispatch) => {
   const token = localStorage.getItem(X_AUTH_TOKEN);
 
   try {
-    const { data } = await axios({
+    await axios({
       method: 'DELETE',
       url: `${API_BASE_URL}/comment/reply/${replyId}`,
       data: {
@@ -238,16 +236,14 @@ export const removeReply = (postId, commentId, replyId) => async (dispatch) => {
       },
     })
 
-    console.log(data);
-
-    // dispatch({
-    //   type: REMOVE_REPLY,
-    //   payload: {
-    //     postId,
-    //     replyId,
-    //     commentId,
-    //   },
-    // });
+    dispatch({
+      type: REMOVE_REPLY,
+      payload: {
+        postId,
+        replyId,
+        commentId,
+      },
+    });
   } catch (error) {
     console.error(error);
   }

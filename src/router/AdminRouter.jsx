@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  Route,
-  Switch,
-} from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 
 import AdminLayout from '../layouts/AdminLayout';
 
@@ -18,17 +15,12 @@ const AdminRouter = () => (
       <ProtectedRoute
         exact
         path="/admin"
-        component={() => <h1>Dashboard</h1>}
+        component={PostPage}
       />
       <ProtectedRoute
         exact
         path="/admin/categories"
         component={CategoryPage}
-      />
-      <ProtectedRoute
-        exact
-        path="/admin/posts"
-        component={PostPage}
       />
       <ProtectedRoute
         exact

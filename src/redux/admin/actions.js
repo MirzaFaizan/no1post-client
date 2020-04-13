@@ -5,7 +5,7 @@ import {
   LOGOUT,
 } from './types';
 
-import { X_AUTH_TOKEN_ADMIN, API_BASE_URL, ADMIN_DATA } from '../../types';
+import { X_AUTH_TOKEN_ADMIN, API_BASE_URL } from '../../types';
 
 export const initAdmin = (callback) => async (dispatch) => {
   const token = localStorage.getItem(X_AUTH_TOKEN_ADMIN);

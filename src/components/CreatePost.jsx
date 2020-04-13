@@ -17,7 +17,6 @@ import TextArea from './TextArea';
 import FileUpload from './FileUpload';
 
 import { addPost } from '../redux/posts/actions';
-import { updateRate } from '../redux/post-rate/actions';
 
 import notification from './notifications';
 
@@ -221,7 +220,8 @@ const CreatePost = ({
                     disabled={loading || postRate.isLoading}
                     className="align-items-center badge-pill btn btn-primary d-flex px-4"
                   >
-                    { admin ? 'Create Post' : `Post for ${postRate.rate}$` }
+                    { admin ? 'Create Post' : `Post for ${postRate.rate}$ ` }
+                    <FaRocketchat />
                   </button>
                 </StripeCheckout>
               )

@@ -88,7 +88,7 @@ const Navbar = ({
               value={searchFilter}
               onChange={setSearch}
               rows={1}
-              class="form-control navbar-input"
+              className="form-control navbar-input"
             />
           </div>
           <button
@@ -117,10 +117,10 @@ Navbar.defaultProps = {
 };
 
 Navbar.propTypes = {
-  setSearch: null,
   logout: PropTypes.func,
   dispatch: PropTypes.func,
   heading: PropTypes.string,
+  setSearch: PropTypes.func,
   imageUrl: PropTypes.string,
   userType: PropTypes.string,
   openAuthModal: PropTypes.func,

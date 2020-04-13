@@ -10,6 +10,7 @@ import FacebookIcon from '../assets/img/icons/Facebook.svg';
 import { API_BASE_URL } from '../types';
 
 import { socialLogin } from '../redux/user/actions';
+import { closeAuthModal } from '../redux/auth-modal/actions';
 
 const SocialAuth = () => {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ const SocialAuth = () => {
 
             const _id = res.data._id || '';
 
+            dispatch(closeAuthModal());
             dispatch(socialLogin(token, _id, name, email, imageUrl));
           })
           .catch(err => {
@@ -39,15 +41,17 @@ const SocialAuth = () => {
     }
   };
 
-  const responseFacebook = () => {
-
+  const responseFacebook = (response) => {
+    console.log(response);
+    dispatch(closeAuthModal());
   };
-
-  console.log('SOCIAL AUTH');
 
   return (
     <div>
       <FacebookLogin
+        appId="151380576292806"
+        fields="name,email,picture"
+        callback={responseFacebook}
         render={(renderProps) => (
           <button
             type="button"

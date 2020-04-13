@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { FiHeart } from 'react-icons/fi';
-import { FaReply, FaTrash, FaHeart } from 'react-icons/fa';
+import { FaReply, FaTrash } from 'react-icons/fa';
 
 import Image from './Image';
 import Replies from './Replies';
@@ -19,10 +18,7 @@ const Comment = ({
   userType,
   dispatch,
 }) => {
-  const [liked, setLike] = React.useState(false);
   const [createReplyOpen, setCreateReplyOpen] = React.useState(false);
-
-  const handleLike = () => setLike(!liked);
 
   const handleToggleCreateReply = () => {
     setCreateReplyOpen(!createReplyOpen);

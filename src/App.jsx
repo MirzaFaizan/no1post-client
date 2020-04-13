@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
@@ -8,7 +7,6 @@ import MainRouter from './router';
 
 import {
   X_AUTH_TOKEN,
-  X_AUTH_TOKEN_ADMIN,
 } from './types';
 
 import { initPosts } from './redux/posts/actions';
@@ -20,6 +18,8 @@ import { initUser, registerAsGuest } from './redux/user/actions';
 const App = () => {
   const dispatch = useDispatch();
   const location = useLocation();
+
+  console.log()
 
   React.useEffect(() => {
     const hasRun = false;
