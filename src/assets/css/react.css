@@ -73,7 +73,6 @@ html {
 }
 
 .media .media__image {
-  height: 360px !important;
   width: auto;
 }
 

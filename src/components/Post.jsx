@@ -91,7 +91,7 @@ const Post = ({
           rounded
           src={post.mediaUrl}
           alt="Will contain some text"
-          className="filter-drop-shadow-gray media__image img-fluid"
+          className="filter-drop-shadow-gray media__image img-fluid object-fit-cover"
         />
       </button>
     );
