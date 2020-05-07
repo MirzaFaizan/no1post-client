@@ -42,7 +42,6 @@ const CategoryPage = ({ categories, remove }) => {
             <tr>
               <th>ID</th>
               <th>Name</th>
-              <th>Slug</th>
               <th>Icon</th>
               <th className="text-center">Actions</th>
             </tr>
@@ -52,7 +51,6 @@ const CategoryPage = ({ categories, remove }) => {
               <tr key={category._id}>
                 <td>{category._id}</td>
                 <td>{category.category}</td>
-                <td>{category.slug}</td>
                 <td><i className={category.icon}></i></td>
                 <td className="text-center">
                   <button

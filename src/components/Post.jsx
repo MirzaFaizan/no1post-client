@@ -7,6 +7,7 @@ import {
   FaTrash,
   FaComment,
   FaShareSquare,
+  FaDownload,
 } from 'react-icons/fa';
 
 import Image from './Image';
@@ -214,16 +215,26 @@ const Post = ({
           {displayMedia()}
         </div>
         <div className="align-items-center flex-column-reverse flex-md-row justify-content-between mx-0 mx-md-4 pt-2 row">
-          <button
-            type="button"
-            onClick={handleToggleComments}
-            className="d-flex align-items-center custom-gray-color h2 mb-0"
-          >
-            <FaComment />
-            <span className="ml-2">
-              {post.comments.length}
-            </span>
-          </button>
+          <span className="d-flex align-items-center justify-content-center">
+            <button
+              type="button"
+              onClick={handleToggleComments}
+              className="d-flex align-items-center custom-gray-color h2 mb-0 mr-2"
+            >
+              <FaComment />
+              <span className="ml-2">
+                {post.comments.length}
+              </span>
+            </button>
+            <a
+              className="custom-gray-color h2"
+              download
+              href={post.mediaUrl}
+              target="_blank"
+            >
+              <FaDownload />
+            </a>
+          </span>
           <div className="d-flex align-items-center">
             <button
               type="button"

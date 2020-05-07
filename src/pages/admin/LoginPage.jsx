@@ -18,6 +18,7 @@ import {
   API_BASE_URL,
   X_AUTH_TOKEN_ADMIN,
 } from '../../types';
+import notifications from '../../components/notifications';
 
 const style = {
   display: 'flex',
@@ -46,7 +47,7 @@ const LoginPage = () => {
       })
       .then((response) => response.data)
       .then((data) => {
-        console.log(data);
+        notifications.success('Logged In', 'You have been successfully logged in.');
 
         const payload = {
           name: data.name,
@@ -59,8 +60,9 @@ const LoginPage = () => {
         history.push('/admin');
 
         localStorage.setItem(X_AUTH_TOKEN_ADMIN, data.token);
-      }).catch((error) => {
-        console.log(error.response);
+      }).catch(() => {
+        notifications.error('Login Failed', 'Invalid email or password');
+        // console.log(error.response);
       });
   };
 
