@@ -77,7 +77,8 @@ const Post = ({
       })
       .catch(() => {
         notifications.success('Post Redeem Failed', 'Oops! Couldn\'t redeem the post, try again.');
-      });
+      })
+      .finally(() => setPaymentModal(false));
   };
 
   const handlePaypal = () => {
