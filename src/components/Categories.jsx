@@ -16,7 +16,7 @@ const Categories = ({ categories, dispatch }) => {
       <h2 className="h2 py-5">Categories</h2>
       <ul className="list-group list-unstyled">
         {
-          categories.length > 0 && <Category
+          <Category
             _id=""
             icon="fa fa-globe"
             name="All"
@@ -32,6 +32,14 @@ const Categories = ({ categories, dispatch }) => {
             onSelectCategory={onSelectCategory}
           />
         ))}
+        {
+          <Category
+            _id="expired"
+            icon="fa fa-recycle"
+            name="Expired"
+            onSelectCategory={onSelectCategory}
+          />
+        }
       </ul>
     </div>
   );

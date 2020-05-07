@@ -2,6 +2,7 @@ export const ADD_POST = 'ADD_POST';
 export const EDIT_POST = 'EDIT_POST';
 export const INIT_POSTS = 'INIT_POSTS';
 export const REMOVE_POST = 'REMOVE_POST';
+export const REDEEM_POST = 'REDEEM_POST';
 
 // Post Comments
 export const ADD_COMMENT = 'ADD_COMMENT';

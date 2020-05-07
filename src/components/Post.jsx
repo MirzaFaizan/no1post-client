@@ -13,17 +13,24 @@ import Image from './Image';
 import Comments from './Comments';
 import StarRating from './StarRating';
 import notification from './notifications';
+import PaymentModal from './payment/PaymentModal';
+import Paypal from './payment/Paypal';
+import Stripe from './payment/Stripe';
+import notifications from './notifications';
 
 import { openPostModal } from '../redux/post-modal/actions';
-import { removePost, ratePost } from '../redux/posts/actions';
+import { redeemPost, ratePost, removePostUser } from '../redux/posts/actions';
+import { APIRedeemPost } from '../api';
 
 const Post = ({
   post,
   userId,
   userType,
+  postRate,
   dispatch,
 }) => {
   const [averageRating, setAverageRating] = React.useState(0);
+  const [paymentModal, setPaymentModal] = React.useState(false);
   const [commentsOpen, setCommentsOpen] = React.useState(false);
 
   React.useEffect(() => {
@@ -55,7 +62,30 @@ const Post = ({
   };
 
   const handleRemove = () => {
-    dispatch(removePost(post._id));
+    dispatch(removePostUser(post._id));
+  };
+
+  const handleRedeemPost = (token, isStripe) => {
+    const payload = token && isStripe
+      ? { stripeToken: token, paymentMethod: true, postRate: postRate.rate * 100 }
+      : { paymentMethod: false, postRate: postRate.rate };
+    
+    APIRedeemPost(post._id, payload)
+      .then(() => {
+        notifications.success('Post Redeemed', 'Your post has been successfully redeemed.');
+        dispatch(redeemPost(post._id));
+      })
+      .catch(() => {
+        notifications.success('Post Redeem Failed', 'Oops! Couldn\'t redeem the post, try again.');
+      });
+  };
+
+  const handlePaypal = () => {
+    handleRedeemPost(null, null);
+  };
+
+  const handleStripe = (token) => {
+    handleRedeemPost(token.id, true);
   };
 
   const displayMedia = () => {
@@ -99,6 +129,23 @@ const Post = ({
 
   return (
     <>
+      {
+        post.expired && post.postBy._id === userId && (
+          <PaymentModal
+            amount={postRate.rate}
+            open={paymentModal}
+            onClose={() => setPaymentModal(false)}
+            paypal={<Paypal
+              amount={postRate.rate}
+              onSuccess={handlePaypal}  
+            />}
+            stripe={<Stripe
+              amount={postRate.rate}
+              onSuccess={handleStripe}
+            />}
+          />
+        )
+      }
       <div id={`post-${post._id}`} className="bg-white custom-rounded-2rem mt-4 p-4 custom-card">
         <div className="align-items-center align-items-md-baseline d-flex flex-column flex-md-row">
           <div>
@@ -116,17 +163,32 @@ const Post = ({
               <span className="h3 mb-0">
                 {post.postBy.name}
               </span>
-              <span className="d-flex flex-column">
-                <small>
-                  Posted At: {new Date(post.createdAt).toDateString().substring(4)}
-                </small>
-                <span className="h4 mb-0">
-                  {
-                    post.postRate <= 0
-                      ? ''
-                      : `Posted For ${post.postRate / 100}$`
-                  }
-                </span>
+              <span className="align-items-start d-flex flex-row">
+                {
+                  post.expired && post.postBy._id === userId && (
+                    <strong className="d-inline-block mr-2">
+                      <button
+                        type="button"
+                        className="btn btn-secondary btn-sm"
+                        onClick={() => setPaymentModal(true)}
+                      >
+                        Redeem Post <i class="fa fa-recycle" />
+                      </button>
+                    </strong>
+                  )
+                }
+                <span className="d-flex flex-column">
+                  <small>
+                    Posted At: {new Date(post.createdAt).toDateString().substring(4)}
+                  </small>
+                  <span className="h4 mb-0">
+                    {
+                      post.postRate <= 0
+                        ? ''
+                        : `Posted For ${post.postRate / 100}$`
+                    }
+                  </span>
+              </span>
               </span>
             </div>
             <div className="h4 pb-2 pb-md-0 text-body">
@@ -204,6 +266,7 @@ Post.propTypes = {
 const mapStateToProps = (state) => ({
   userId: state.user._id,
   userType: state.user.userType,
+  postRate: state.postRate,
 });
 
 export default connect(mapStateToProps)(Post);

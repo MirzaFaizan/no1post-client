@@ -9,6 +9,7 @@ import {
   REMOVE_COMMENT,
   REMOVE_REPLY,
   RATE_POST,
+  REDEEM_POST,
 } from './types';
 
 import {
@@ -18,6 +19,11 @@ import {
 } from '../../types';
 
 import { updateRate, setRateLoading } from '../post-rate/actions';
+
+export const redeemPost = (id) => ({
+  type: REDEEM_POST,
+  payload: id,
+});
 
 export const initPosts = (callback) => async (dispatch) => {
   const token = localStorage.getItem(X_AUTH_TOKEN);
@@ -46,13 +52,19 @@ export const initPosts = (callback) => async (dispatch) => {
   }
 };
 
-export const addPost = (stripeToken, postRate, file, fileType, description, category, callback) => async (dispatch) => {
+export const addPost = (stripeToken, isStripe, postRate, file, fileType, description, category, callback) => async (dispatch) => {
   try {
     const formData = new FormData();
 
     const token = localStorage.getItem(X_AUTH_TOKEN);
 
-    formData.append('stripeToken', stripeToken);
+    if (stripeToken && isStripe) {
+      formData.append('paymentMethod', true);
+      formData.append('stripeToken', stripeToken);
+    } else {
+      formData.append('paymentMethod', false);
+    }
+    
     formData.append('postRate', postRate * 100);
     formData.append('mediaUrl', file);
     formData.append('category', category);
@@ -109,6 +121,21 @@ export const adminAddPost = (description, category, file, fileType) => async (di
   } catch (error) {
     console.log(error);
   }
+};
+
+export const removePostUser = (postId) => async (dispatch) => {
+  const token = localStorage.getItem(X_AUTH_TOKEN);
+  try {
+    if (!token) {}
+    else {
+      await axios.delete(`${API_BASE_URL}/admin/post/delete/${postId}`, { headers: { Authorization: `Bearer ${token}` } })
+
+      dispatch({
+        type: REMOVE_POST,
+        payload: postId,
+      });
+    }
+  } catch (error) {}
 };
 
 export const removePost = (postId) => async (dispatch) => {

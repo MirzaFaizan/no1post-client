@@ -7,6 +7,7 @@ import {
   REMOVE_COMMENT,
   ADD_REPLY,
   REMOVE_REPLY,
+  REDEEM_POST,
   RATE_POST,
 } from './types';
 
@@ -52,6 +53,11 @@ export default (state = [...initState], { type, payload }) => {
           }
           : { ...post }
       ));
+    case REDEEM_POST:
+      return [
+        { ...state.find((post) => post._id === payload), expired: false },
+        ...state.filter((post) => post._id !== payload)
+      ];
     // Post Replies
     case ADD_REPLY:
       return state.map((post) => (

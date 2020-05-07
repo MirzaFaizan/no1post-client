@@ -9,18 +9,24 @@ const postsAndFiltersSelector = ({ posts, filters }) => ({
 export const filteredPostSelector = createSelector(
   postsAndFiltersSelector,
   ({ posts, category, search }) => {
+    if (category === 'expired') {
+      return posts
+        .filter((post) => post.expired === true)
+        .filter((post) => post.description.toLowerCase().includes(search));
+    }
+
     if (category) {
       return posts
-        .filter((post) => post.category._id === category)
+        .filter((post) => post.category._id === category && post.expired === false)
         .filter((post) => post.description.toLowerCase().includes(search));
     }
 
     if (search) {
       return posts
-        .filter((post) => post.description.toLowerCase().includes(search));
+        .filter((post) => post.description.toLowerCase().includes(search) && post.expired === false);
     }
 
-    return [...posts];
+    return posts.filter((post) => post.expired === false);
   },
 );
 
