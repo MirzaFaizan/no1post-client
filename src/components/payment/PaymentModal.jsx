@@ -28,7 +28,7 @@ const PaymentModal = ({ amount, onClose, open, paypal, stripe }) => {
       </Modal.Header>
       <Modal.Body>
         <Row>
-          <Col xs={12} md={6}>
+          <Col xs={12} md={12}>
             <div className="align-items-center d-flex h-100 justify-content-center">
               {paypal}
               {/* <PaypalExpressButton
@@ -53,10 +53,10 @@ const PaymentModal = ({ amount, onClose, open, paypal, stripe }) => {
               /> */}
             </div>
           </Col>
-          <Col xs={12} md={6}>
+          {/* <Col xs={12} md={6}>
             <div className="align-items-center d-flex h-100 justify-content-center">
               {stripe}
-              {/* <StripeCheckout
+              <StripeCheckout
                 name="Create Post"
                 amount={amount * 100}
                 label="Pay with Stripe"
@@ -64,9 +64,9 @@ const PaymentModal = ({ amount, onClose, open, paypal, stripe }) => {
                 shippingAddress={false}
                 stripeKey="pk_test_b5TM5xwfx9cXw1eyNqWoBhTz00n4IFkQiJ"
                 token={(token) => console.log(token)}
-              /> */}
+              />
             </div>
-          </Col>
+          </Col> */}
         </Row>
       </Modal.Body>
     </Modal>
