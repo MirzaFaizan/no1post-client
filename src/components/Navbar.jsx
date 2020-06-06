@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import {
   Button,
   Form,
@@ -8,20 +8,17 @@ import {
   Navbar,
   NavDropdown,
   Spinner,
-} from 'react-bootstrap';
-import { FaSearch } from 'react-icons/fa';
+} from "react-bootstrap";
+import { FaSearch } from "react-icons/fa";
 
-import Image from './Image';
+import Image from "./Image";
 
-import {
-  setSearchFilter,
-} from '../redux/filters/actions';
-import {
-  openAuthModal as openAuthModalAction,
-} from '../redux/auth-modal/actions';
-import { logoutUserAndRegisterAsGuest } from '../redux/user/actions';
+import { setSearchFilter } from "../redux/filters/actions";
+import { openAuthModal as openAuthModalAction } from "../redux/auth-modal/actions";
+import { logoutUserAndRegisterAsGuest } from "../redux/user/actions";
+import ProfileUpdationModal from "./profileUpdation/profileUpdation";
 
-import DefaultImage from '../assets/img/default-user.png';
+import DefaultImage from "../assets/img/default-user.png";
 
 const MyNavbar = ({
   name,
@@ -35,7 +32,7 @@ const MyNavbar = ({
   isAuthenticated,
 }) => {
   const preventReturn = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       event.preventDefault();
     }
   };
@@ -43,14 +40,15 @@ const MyNavbar = ({
   const getNavbarActions = () => {
     // guest, notAuthenticated etc
     if (!isAuthenticated) {
-      return <Spinner animation="border" />
+      return <Spinner animation="border" />;
     }
 
-    if (userType === 'guest') {
+    if (userType === "guest") {
       return (
         <>
           <Nav.Link>
-            Signed in as Guest: <img
+            Signed in as Guest:{" "}
+            <img
               alt="User"
               className="object-fit-cover rounded-circle"
               height="35px"
@@ -74,8 +72,9 @@ const MyNavbar = ({
     return (
       <>
         <Nav.Link>
-          Signed in as {name}
+          <ProfileUpdationModal />
         </Nav.Link>
+        <Nav.Link>Signed in as {name}</Nav.Link>
         <NavDropdown
           title={
             <img
@@ -88,9 +87,7 @@ const MyNavbar = ({
           }
           id="basic-nav-dropdown"
         >
-          <NavDropdown.Item onClick={logout}>
-            Logout
-          </NavDropdown.Item>
+          <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
         </NavDropdown>
         {/* <Nav.Link>
           <Button
@@ -105,7 +102,7 @@ const MyNavbar = ({
       </>
     );
   };
-  
+
   return (
     <Navbar bg="white" expand="lg">
       <Navbar.Brand href="#">{heading}</Navbar.Brand>
@@ -124,15 +121,13 @@ const MyNavbar = ({
             />
             <button
               type="button"
-              onClick={() => console.log('search')}
+              onClick={() => console.log("search")}
               className="mr-3 mr-md-5 button-invisible"
             >
               <FaSearch className="icon-2x" />
             </button>
           </Form>
-          <Nav>
-            {getNavbarActions()}
-          </Nav>
+          <Nav>{getNavbarActions()}</Nav>
         </div>
       </Navbar.Collapse>
     </Navbar>
@@ -140,14 +135,14 @@ const MyNavbar = ({
 };
 
 MyNavbar.defaultProps = {
-  name: '',
+  name: "",
   logout: null,
   dispatch: null,
-  searchFilter: '',
-  userType: 'guest',
+  searchFilter: "",
+  userType: "guest",
   openAuthModal: null,
   imageUrl: DefaultImage,
-  heading: 'NumberOnePost',
+  heading: "NumberOnePost",
   isAuthenticated: false,
 };
 
