@@ -1,10 +1,7 @@
 .accounting-new-btn {
   /* padding: 10px; */
   border: none;
-}
-
-.accounting-new-btn:hover {
-  background-color: #41689e !important;
+  color: grey;
 }
 
 .reconcile-form-sbmt {

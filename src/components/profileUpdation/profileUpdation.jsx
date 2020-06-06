@@ -38,7 +38,7 @@ export default function Modal(props) {
       <div class="">
         <button
           type="button"
-          class="accounting-new-btn bg-transparent text-black ml-2"
+          class="accounting-new-btn bg-transparent ml-2"
           data-toggle="modal"
           data-target="#form"
         >
