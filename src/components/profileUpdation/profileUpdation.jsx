@@ -1,19 +1,23 @@
-/* eslint-disable no-unused-expressions */
-/* eslint-disable no-lone-blocks */
-/* eslint-disable array-callback-return */
-import React, { useEffect } from "react";
+/* eslint-disable */
+import React from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { API_BASE_URL, X_AUTH_TOKEN } from "../../types";
 import notifications from "../notifications";
+import { FiUpload } from "react-icons/fi";
 import "./profileUpdation.css";
 
-export default function Modal(props) {
-  const { register, handleSubmit, errors } = useForm();
+// import FileUpload from "../FileUpload";
+
+export default function Modal() {
+  const { register, handleSubmit, setValue, errors } = useForm();
+
+  const handleFileUpload = (event) => {
+    setValue("avatar", event.target.files[0]);
+  };
 
   const onSubmit = (newData) => {
     newData.imageUrl = "";
-    console.log(newData);
     axios
       .patch(`${API_BASE_URL}/user/profile/update`, newData, {
         headers: {
@@ -41,6 +45,7 @@ export default function Modal(props) {
           class="accounting-new-btn bg-transparent ml-2"
           data-toggle="modal"
           data-target="#form"
+          onClick={console.log}
         >
           Edit Profile
         </button>
@@ -197,6 +202,22 @@ export default function Modal(props) {
                       This field is required
                     </small>
                   )}
+                </div>
+
+                <div>
+                  <label htmlFor="file" className="cursor-pointer">
+                    <span className="category-item shadow rounded-circle border bg-black">
+                      <FiUpload className="category-item-icon m-auto text-white" />
+                    </span>
+                    <input
+                      id="file"
+                      type="file"
+                      name="file"
+                      accept="image/*"
+                      className="d-none"
+                      onChange={handleFileUpload}
+                    />
+                  </label>
                 </div>
 
                 <div class="col-sm-12 mt-4 d-flex justify-content-center align-items-center">

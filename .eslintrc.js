@@ -25,5 +25,6 @@ module.exports = {
     'linebreak-style': 0,
     'no-underscore-dangle': 0,
     'jsx-a11y/media-has-caption': 0,
+    'quotes': 0,
   },
 };

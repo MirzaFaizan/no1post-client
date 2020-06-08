@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import {
@@ -17,6 +17,7 @@ import { setSearchFilter } from "../redux/filters/actions";
 import { openAuthModal as openAuthModalAction } from "../redux/auth-modal/actions";
 import { logoutUserAndRegisterAsGuest } from "../redux/user/actions";
 import ProfileUpdationModal from "./profileUpdation/profileUpdation";
+import ProfileUpdate from "./ProfileUpdate";
 
 import DefaultImage from "../assets/img/default-user.png";
 
@@ -31,6 +32,11 @@ const MyNavbar = ({
   openAuthModal,
   isAuthenticated,
 }) => {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleOpenModal = () => setModalOpen(true);
+  const handleCloseModal = () => setModalOpen(false);
+
   const preventReturn = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
@@ -71,9 +77,8 @@ const MyNavbar = ({
 
     return (
       <>
-        <Nav.Link>
-          <ProfileUpdationModal />
-        </Nav.Link>
+        <ProfileUpdate isOpen={modalOpen} onClose={handleCloseModal} />
+        <Nav.Link onClick={handleOpenModal}>Edit Profile</Nav.Link>
         <Nav.Link>Signed in as {name}</Nav.Link>
         <NavDropdown
           title={
